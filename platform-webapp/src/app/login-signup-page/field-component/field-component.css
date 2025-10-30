@@ -1,0 +1,13 @@
+mat-form-field {
+    display: block;
+    width: 100%;
+}
+/* because edge sucks */
+input[type=password]::-ms-reveal,
+input[type=password]::-ms-clear
+{
+  display: none;
+}
+.mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}

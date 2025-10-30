@@ -1,0 +1,24 @@
+<mat-form-field>
+    <mat-label>Enter your {{name()}}</mat-label>
+    <input
+      matInput
+      [formControl]="field"
+      [type]="hideInput() ? 'password' : 'text'"
+      (blur)="updateFieldErrorMessage()"
+    />
+    @if(name() == "password"){
+        <button
+            type="button"
+            matIconButton
+            matSuffix
+            (click)="clickOnHidePassword($event)"
+            [attr.aria-label]="'Hide password'"
+            [attr.aria-pressed]="hideInput()"
+        >
+            <mat-icon>{{hideInput() ? 'visibility_off' : 'visibility'}}</mat-icon>
+        </button>
+    }
+    @if (field.invalid){
+        <mat-error>{{fieldErrorMessage()}}</mat-error>
+    }
+</mat-form-field>

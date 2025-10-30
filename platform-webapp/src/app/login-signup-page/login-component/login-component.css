@@ -1,0 +1,17 @@
+.login-form {
+  margin: 8px;
+  display: flex;
+  align-items: stretch;
+  width: 20vw;
+  position: absolute;
+  top: 50%; 
+  left: 50%; 
+  transform: translate(-50%, -50%);
+  flex-wrap: wrap;
+  flex-direction: column;
+}
+
+.app-field-component {
+    display: block;
+    width: 100%;
+}

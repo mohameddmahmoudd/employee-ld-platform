@@ -1,0 +1,11 @@
+<div class="signup-form">
+    <h2>Login to continue!</h2>
+    <app-field-component name="username" [validatorsList]="[Validators.required, Validators.maxLength(50)]"></app-field-component>
+    <app-field-component name="password" [validatorsList]="[Validators.required, Validators.minLength(4), Validators.maxLength(35)]"></app-field-component>
+  
+  <!-- @if (authService.invalidLoginCredentials()){
+    <p class="error">you're wrong</p>
+  }-->
+  <a matButton="filled" (click)="tryToAuthenticate($event)">Signup</a> 
+  <a matButton routerLink="/login">I already have an account</a> 
+</div>
