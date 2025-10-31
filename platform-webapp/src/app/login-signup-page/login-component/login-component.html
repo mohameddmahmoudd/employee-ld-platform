@@ -1,14 +1,19 @@
-<div class="login-form">
-    <h2>Login to continue!</h2>
-    <app-field-component name="username" [validatorsList]="[Validators.required]"></app-field-component>
-    <app-field-component name="password" [validatorsList]="[Validators.required]"></app-field-component>
-  
-  <!-- @if (authService.invalidLoginCredentials()){
-    <p class="error">you're wrong</p>
-  }-->
-  <a matButton="filled" (click)="tryToAuthenticate($event)">Login</a> 
-  <a matButton routerLink="/signup">I don't have an account yet</a> 
-</div>
+<main>
+    <mat-card>
+        <h2>Login to continue!</h2>
+        <section id="input-fields">
+            <app-field-component #username name="username"
+                [validatorsList]="[Validators.required]"></app-field-component>
+            <app-field-component #password name="password"
+                [validatorsList]="[Validators.required]"></app-field-component>
+        </section>
 
-<!-- signup will be the same, but will have a different validators list for password, and both will
-do their own communications with backend -->
+        @if (errorState()){
+            <p class="error">you're wrong</p>
+        }
+
+        <a matButton="filled" (click)="tryToAuthenticate($event)">Login</a>
+        <a matButton routerLink="/signup">I don't have an account yet</a>
+
+    </mat-card>
+</main>

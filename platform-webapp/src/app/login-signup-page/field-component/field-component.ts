@@ -48,6 +48,7 @@ export class FieldComponent {
   }
 
   updateFieldErrorMessage() {
+    console.trace("boo");
     this.field.markAsTouched();
     if (this.field.errors) {
       let errors = this.field.errors;
@@ -57,8 +58,10 @@ export class FieldComponent {
         this.fieldErrorMessage.set('Field value is too short.');
       else if (errors['maxlength'])
         this.fieldErrorMessage.set('Field value is too long.');
+      return true;
     } else {
       this.fieldErrorMessage.set('');
+      return false;
     }
   }
 }
