@@ -16,7 +16,7 @@ import { MatCardModule } from '@angular/material/card';
     FieldComponent
   ],
   templateUrl: './login-component.html',
-  styleUrl: './login-component.css',
+  styleUrl: '../login-signup-page.css',
 })
 export class LoginComponent {
   Validators = Validators;

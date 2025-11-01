@@ -28,7 +28,7 @@ export class FieldComponent {
   fieldErrorMessage = signal('');
   field!: FormControl;
 
-  hideInput = signal(false);
+  hideInput = signal(true);
 
   private destroy$ = new Subject<void>();
   ngOnInit() {
@@ -48,7 +48,6 @@ export class FieldComponent {
   }
 
   updateFieldErrorMessage() {
-    console.trace("boo");
     this.field.markAsTouched();
     if (this.field.errors) {
       let errors = this.field.errors;

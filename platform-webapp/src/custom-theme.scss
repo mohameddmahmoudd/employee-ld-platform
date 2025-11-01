@@ -21,13 +21,17 @@ html {
     typography: Roboto,
     density: 0,
   ));
+  margin: 0;
+  padding: 0;
+  // width: 100vw;
+  min-height: 100%;
 }
 
 body {
   // Default the application to a light color theme. This can be changed to
   // `dark` to enable the dark color theme, or to `light dark` to defer to the
   // user's system settings.
-  color-scheme: light;
+  color-scheme: light dark;
   // Set a default background, font and text colors for the application using
   // Angular Material's system-level CSS variables. Learn more about these
   // variables at https://material.angular.dev/guide/system-variables
@@ -37,6 +41,9 @@ body {
 
   // Reset the user agent margin.
   margin: 0;
+  padding: 0;
+  // width: 100vw;
+  min-height: 100%;
 }
 /* Global heading + text style overrides */
 h1 {
