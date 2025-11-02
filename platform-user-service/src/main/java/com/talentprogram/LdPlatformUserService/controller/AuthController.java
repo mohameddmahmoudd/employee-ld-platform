@@ -15,6 +15,7 @@ import com.talentprogram.LdPlatformUserService.dto.UserViewDTO;
 
 
 @RestController
+
 public class AuthController
 {
     private final SignupService signupService;
@@ -25,13 +26,13 @@ public class AuthController
         this.loginService = loginService;
     }
 
-    @PostMapping("/signup")
+    @PostMapping("auth/signup")
     @ResponseStatus(CREATED)
     public UserViewDTO signup(@Valid @RequestBody SignUpRequestDTO entity) {        
         return signupService.signup(entity);
     }
     
-    @PostMapping("/login")
+    @PostMapping("auth/login")
     public LoginResponseDTO login(@RequestBody LoginRequestDTO entity) {
         return loginService.login(entity);
     }

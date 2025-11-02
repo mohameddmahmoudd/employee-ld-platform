@@ -25,7 +25,7 @@ public class LoginService
     public LoginResponseDTO login(LoginRequestDTO request) {
         /* TODO Implement login logic */
 
-        User user = users.findByName(request.name())
+        User user = users.findByUsername(request.name())
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid credentials"));
 
         if (!user.getPassword().equals(request.password())) {
@@ -34,7 +34,8 @@ public class LoginService
 
         UserViewDTO userView = new UserViewDTO(
             user.getId(),
-            user.getName(),
+            user.getFullName(),
+            user.getUsername(),
             user.getTitle(),
             user.getManager() != null ? user.getManager().getId() : null,
             user.getRoles()

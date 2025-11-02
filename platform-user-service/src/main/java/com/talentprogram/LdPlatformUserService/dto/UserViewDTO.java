@@ -4,7 +4,8 @@ import com.talentprogram.LdPlatformUserService.model.Role;
 
 public record UserViewDTO(
   Long id,
-  String name,
+  String username,
+  String fullName,
   String title,
   Long managerId,
   Set<Role> roles

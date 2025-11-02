@@ -9,6 +9,6 @@ import com.talentprogram.LdPlatformUserService.model.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long>
 {
-    Optional<User> findByName(String name);
-    boolean existsByName(String name);
+    Optional<User> findByUsername(String username);
+    boolean existsByUsername(String username);
 }

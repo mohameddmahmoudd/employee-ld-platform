@@ -28,14 +28,15 @@ public class SignupService {
     @Transactional
     public UserViewDTO signup(SignUpRequestDTO request)
     {
-            if (users.existsByName(request.name()))
+            if (users.existsByUsername(request.username()))
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "name already exists");
 
         Role defaultRole = roles.findByName("NEWUSER")
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "default role not found"));
 
         User newUser = new User();
-        newUser.setName(request.name());
+        newUser.setUsername(request.username());
+        newUser.setFullName(request.fullName());
         newUser.setPassword(request.password());
         newUser.setTitle(request.title());
         newUser.setRoles(Set.of(defaultRole));
@@ -46,7 +47,8 @@ public class SignupService {
 
         UserViewDTO userView = new UserViewDTO(
             newUser.getId(),
-            newUser.getName(),
+            newUser.getFullName(),
+            newUser.getUsername(),
             newUser.getTitle(),
             newUser.getManager() != null ? newUser.getManager().getId() : null,
             newUser.getRoles()

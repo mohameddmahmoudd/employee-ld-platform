@@ -8,9 +8,10 @@ import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import java.util.Set;
-
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import java.time.Instant;
-
+import java.util.Collection;
 import jakarta.persistence.Column;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.JoinColumn;
@@ -22,7 +23,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "users")
 @NoArgsConstructor
-public class User 
+public class User implements UserDetails
 {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,15 +31,19 @@ public class User
     private Long id;
 
     @Column(name = "name", nullable = false, unique = true)
+    @Setter
+    private String username;
+
+    @Column(name = "full_name", nullable = false)
     @Getter @Setter
-    private String name;
+    private String fullName;
 
     @Column(name="title")
     @Getter @Setter
     private String title;
 
     @Column(name = "password", nullable = false)
-    @Getter @Setter
+    @Setter
     private String password;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -66,4 +71,31 @@ public class User
     )
     @Getter @Setter
     private Set<Role> roles;
+
+    // UserDetails interface methods
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return roles.stream().map(role -> (GrantedAuthority) role::getName).toList();
+    }
+    
+    @Override
+    public String getUsername() {
+        return this.username;   
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return isEnabled;    
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return isEnabled;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.password;
+    }
+
 }
