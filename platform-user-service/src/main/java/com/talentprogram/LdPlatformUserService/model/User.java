@@ -54,12 +54,16 @@ public class User
     @Column(name="created_at", nullable=false)
     private Instant createdAt = Instant.now();
 
+    @Column(name="isEnabled", nullable=false)
+    @Getter @Setter
+    private Boolean isEnabled = true;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
     name = "user_roles",
     joinColumns = @JoinColumn(name="user_id"),
     inverseJoinColumns = @JoinColumn(name="role_id")
     )
-    @Getter
+    @Getter @Setter
     private Set<Role> roles;
 }
