@@ -12,7 +12,7 @@ public class JwtConfig
   /**
    * Access token TTL in minutes.
    */
-  private long ttlMinutes;
+  private long expiration;
 
   /**
    * Token issuer (iss).
@@ -22,8 +22,8 @@ public class JwtConfig
   // getters/setters
   public String getSecret() { return secret; }
   public void setSecret(String secret) { this.secret = secret; }
-  public long getTtlMinutes() { return ttlMinutes; }
-  public void setTtlMinutes(long ttlMinutes) { this.ttlMinutes = ttlMinutes; }
+  public long getExpiration() { return expiration; }
+  public void setExpiration(long expiration) { this.expiration = expiration; }
   public String getIssuer() { return issuer; }
   public void setIssuer(String issuer) { this.issuer = issuer; }
     

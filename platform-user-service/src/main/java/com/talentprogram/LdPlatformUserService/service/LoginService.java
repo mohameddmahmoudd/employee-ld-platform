@@ -15,17 +15,17 @@ import com.talentprogram.LdPlatformUserService.dto.UserViewDTO;
 public class LoginService 
 {
     private final UserRepository users;
+    private final JwtService jwtService;
 
-    /* TODO Add JwtService */
-
-    public LoginService(UserRepository users) {
+    public LoginService(UserRepository users, JwtService jwtService) {
         this.users = users;
+        this.jwtService = jwtService;
     }
 
     public LoginResponseDTO login(LoginRequestDTO request) {
         /* TODO Implement login logic */
 
-        User user = users.findByUsername(request.name())
+        User user = users.findByUsername(request.username())
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid credentials"));
 
         if (!user.getPassword().equals(request.password())) {
@@ -42,9 +42,8 @@ public class LoginService
         );
 
         return new LoginResponseDTO(
-        null,    
+            jwtService.generateToken(user),
             userView
-            /* TODO Add JWT token */
         );
 
     } 

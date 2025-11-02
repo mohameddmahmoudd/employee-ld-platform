@@ -1,55 +1,86 @@
-// package com.talentprogram.LdPlatformUserService.service;
+package com.talentprogram.LdPlatformUserService.service;
 
-// import java.nio.charset.StandardCharsets;
-// import java.time.Instant;
-// import java.util.stream.Collectors;
+import java.nio.charset.StandardCharsets;
 
-// import javax.crypto.SecretKey;
+import javax.crypto.SecretKey;
 
-// import com.talentprogram.LdPlatformUserService.config.JwtConfig;
+import com.talentprogram.LdPlatformUserService.config.JwtConfig;
 
-// import io.jsonwebtoken.Jwts;
-// import io.jsonwebtoken.security.Keys;
-// import java.util.Date;
-// import java.util.List;
-// import com.talentprogram.LdPlatformUserService.model.User;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.security.Keys;
+import java.util.Date;
+import io.jsonwebtoken.Claims;
+import java.util.function.Function;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+import java.util.Map;
+import java.util.HashMap;
 
-// @Service
-// public class JwtService 
-// {
-//   private final SecretKey key;
-//   private final long ttlMinutes;
-//   private final String issuer;
+@Service
+public class JwtService 
+{
+  private final SecretKey key;
+  private final long expiration;
 
-//   public JwtService(JwtConfig props) {
-//     this.ttlMinutes = props.getTtlMinutes();
-//     this.issuer = props.getIssuer();
-//     this.key = Keys.hmacShaKeyFor(props.getSecret().getBytes(StandardCharsets.UTF_8));
-//   }
+  public JwtService(JwtConfig props) {
+    this.expiration = props.getExpiration();
+    this.key = Keys.hmacShaKeyFor(props.getSecret().getBytes(StandardCharsets.UTF_8));
+  }
 
-//    public String createAccessToken(User u) {
+   public String generateToken(UserDetails userDetails) {
+        return generateToken(new HashMap<>(), userDetails);
+    }
+
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+        return buildToken(extraClaims, userDetails, expiration);
+    }
+
+    public boolean isTokenValid(String token, UserDetails userDetails) {
+        final String username = extractUsername(token);
+        return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
+    }
+
+    public String extractUsername(String token) {
+        return extractClaim(token, Claims::getSubject);
+    }
+
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+        final Claims claims = extractAllClaims(token);
+        return claimsResolver.apply(claims);
+    }
+
+    private String buildToken(
+            Map<String, Object> extraClaims,
+            UserDetails userDetails,
+            long expiration
+    ) {
+        return Jwts
+                .builder()
+                .claims(extraClaims)
+                .subject(userDetails.getUsername())
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(new Date(System.currentTimeMillis() + expiration))
+                .signWith(key)
+                .compact();
+    }
     
-//     var now = Instant.now();
-//     var exp = now.plusSeconds(ttlMinutes * 60);
 
-//     // Safely build roles list
-//     List<String> roles = (u.getRoles() == null)
-//         ? List.of()
-//         : u.getRoles().stream().map(r -> r.getName()).collect(Collectors.toList());
+    private Claims extractAllClaims(String token) {
+        return Jwts
+                .parser()
+                .verifyWith(key)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload();
+    }
 
-//     var builder = Jwts.builder()
-//         .subject(String.valueOf(u.getId()))
-//         .issuer(issuer)
-//         .issuedAt(Date.from(now))
-//         .expiration(Date.from(exp))
-//         .claim("roles", roles);
 
-//     // Optional, only if you truly need them (beware PII)
-//     if (u.getName() != null)   builder.claim("name", u.getName());
-//     if (u.getTitle() != null)  builder.claim("title", u.getTitle());
-//     if (u.getManager() != null && u.getManager().getId() != null)
-//       builder.claim("managerId", u.getManager().getId());
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
 
-//     return builder.signWith(key).compact();
-//    }
-// }
+    private Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
+    }
+
+}
