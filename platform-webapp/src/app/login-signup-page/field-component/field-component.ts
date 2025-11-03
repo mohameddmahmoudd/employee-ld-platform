@@ -22,18 +22,16 @@ import { merge, Subject, takeUntil } from 'rxjs';
   styleUrl: './field-component.css',
 })
 export class FieldComponent {
-  validatorsList = input.required<ValidatorFn[]>();
-
+  field = input.required<FormControl>();
   name = input.required<string>();
   fieldErrorMessage = signal('');
-  field!: FormControl;
 
-  hideInput = signal(true);
+  hideInput = signal(false);
 
   private destroy$ = new Subject<void>();
   ngOnInit() {
-    this.field = new FormControl('', this.validatorsList());
-    merge(this.field.statusChanges, this.field.valueChanges)
+    this.hideInput.set(this.name() === "password");
+    merge(this.field().statusChanges, this.field().valueChanges)
       .pipe(takeUntil(this.destroy$))
       .subscribe(() => this.updateFieldErrorMessage());
   }
@@ -48,9 +46,11 @@ export class FieldComponent {
   }
 
   updateFieldErrorMessage() {
-    this.field.markAsTouched();
-    if (this.field.errors) {
-      let errors = this.field.errors;
+    this.field().markAsTouched();
+    let field = this.field();
+    
+    if (field.errors) {
+      let errors = field.errors;
       if (errors['required'])
         this.fieldErrorMessage.set('Field can\'t be empty.');
       else if (errors['minlength'])

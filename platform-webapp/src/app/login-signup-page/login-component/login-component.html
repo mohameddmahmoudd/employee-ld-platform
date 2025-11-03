@@ -3,17 +3,19 @@
         <h2>Login to continue!</h2>
         <section id="input-fields">
             <app-field-component #username name="username"
-                [validatorsList]="[Validators.required]"></app-field-component>
+                [field]="loginForm.controls['username']"></app-field-component>
             <app-field-component #password name="password"
-                [validatorsList]="[Validators.required]"></app-field-component>
+                [field]="loginForm.controls['password']"></app-field-component>
         </section>
 
         @if (errorState()){
-            <p class="error">you're wrong</p>
+            <p class="error">{{this.errorMessage()}}</p>
         }
 
-        <a matButton="filled" (click)="tryToAuthenticate($event)">Login</a>
-        <a matButton routerLink="/signup">I don't have an account yet</a>
-
+        <button type="button" matButton="filled" (click)="tryToAuthenticate($event)" (keydown.enter)="tryToAuthenticate($event)">Login</button>
+        <button type="button" matButton routerLink="/signup">I don't have an account yet</button>
+        @if (isLoading()){
+            <mat-spinner [diameter]="50" [strokeWidth]="10"></mat-spinner>
+        }
     </mat-card>
 </main>

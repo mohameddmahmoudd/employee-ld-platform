@@ -2,7 +2,7 @@
     <mat-label>Enter your {{name()}}</mat-label>
     <input
       matInput
-      [formControl]="field"
+      [formControl]="field()"
       [type]="hideInput() ? 'password' : 'text'"
       (blur)="updateFieldErrorMessage()"
     />
@@ -18,7 +18,7 @@
             <mat-icon>{{hideInput() ? 'visibility_off' : 'visibility'}}</mat-icon>
         </button>
     }
-    @if (field.invalid){
+    @if (field().invalid){
         <mat-error>{{fieldErrorMessage()}}</mat-error>
     }
 </mat-form-field>

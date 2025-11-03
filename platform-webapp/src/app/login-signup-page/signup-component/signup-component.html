@@ -2,18 +2,26 @@
     <mat-card>
         <h2>Create an account!</h2>
         <section id="input-fields">
+            <section id="full-name">
+                <app-field-component #firstname name="first name"
+                    [field]="signupForm.controls['firstname']"></app-field-component>
+                <app-field-component #lastname name="last name"
+                    [field]="signupForm.controls['lastname']"></app-field-component>
+            </section>
             <app-field-component #username name="username"
-                [validatorsList]="[Validators.required, Validators.maxLength(50)]"></app-field-component>
+                [field]="signupForm.controls['username']"></app-field-component>
             <app-field-component #password name="password"
-                [validatorsList]="[Validators.required, Validators.minLength(4), Validators.maxLength(50)]"></app-field-component>
+                [field]="signupForm.controls['password']"></app-field-component>
         </section>
 
         @if (errorState()){
-            <p class="error">you're wrong</p>
+        <p class="error">{{errorMessage()}}</p>
         }
 
-        <a matButton="filled" (click)="tryToAuthenticate($event)">Signup</a>
+        <a matButton="filled" (click)="tryToAuthenticate($event)" (keydown.enter)="tryToAuthenticate($event)">Signup</a>
         <a matButton routerLink="/login">I already have an account</a>
-
+        @if (isLoading()){
+            <mat-spinner [diameter]="50" [strokeWidth]="10"></mat-spinner>
+        }
     </mat-card>
 </main>

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CurrentroleComponent } from './currentrole-component';
+import { GuestDashboardComponent } from './guest-dashboard-component';
 
-describe('CurrentroleComponent', () => {
-  let component: CurrentroleComponent;
-  let fixture: ComponentFixture<CurrentroleComponent>;
+describe('GuestDashboardComponent', () => {
+  let component: GuestDashboardComponent;
+  let fixture: ComponentFixture<GuestDashboardComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [CurrentroleComponent]
+      imports: [GuestDashboardComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CurrentroleComponent);
+    fixture = TestBed.createComponent(GuestDashboardComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
