@@ -8,7 +8,7 @@ public record UserViewDTO(
   String fullName,
   String title,
   Long managerId,
-  Set<Role> roles
+  Set<Role> roles /*roles review TODO*/
 )
 {
     

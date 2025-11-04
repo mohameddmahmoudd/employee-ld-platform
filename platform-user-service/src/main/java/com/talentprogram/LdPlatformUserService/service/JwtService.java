@@ -14,7 +14,6 @@ import java.util.function.Function;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import java.util.Map;
-import java.util.HashMap;
 
 @Service
 public class JwtService 
@@ -26,10 +25,6 @@ public class JwtService
     this.expiration = props.getExpiration();
     this.key = Keys.hmacShaKeyFor(props.getSecret().getBytes(StandardCharsets.UTF_8));
   }
-
-   public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails);
-    }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return buildToken(extraClaims, userDetails, expiration);

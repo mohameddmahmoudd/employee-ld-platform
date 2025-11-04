@@ -5,7 +5,7 @@ import com.talentprogram.LdPlatformUserService.repos.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
+import java.util.Map;
 import com.talentprogram.LdPlatformUserService.dto.LoginRequestDTO;
 import com.talentprogram.LdPlatformUserService.dto.LoginResponseDTO;
 import com.talentprogram.LdPlatformUserService.model.User;
@@ -42,7 +42,7 @@ public class LoginService
         );
 
         return new LoginResponseDTO(
-            jwtService.generateToken(user),
+            jwtService.generateToken(Map.of("roles", user.getRoles()), user),
             userView
         );
 
