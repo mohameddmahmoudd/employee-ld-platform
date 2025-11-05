@@ -3,11 +3,21 @@ import { LoginComponent } from './login-signup-page/login-component/login-compon
 import { SignupComponent } from './login-signup-page/signup-component/signup-component';
 import { Home } from './home/home';
 import { dashboardGuard } from './guards/dashboard-guard';
+import { EmptyComponent } from './empty-component/empty-component';
 
 // TODO: lazy load
 export const routes: Routes = [
     { path: "login", component: LoginComponent },
     { path: "signup", component: SignupComponent },
-    { path: "dashboard", component: Home, canActivate: [dashboardGuard] },
-    { path: "**", redirectTo: "dashboard" }
+    {
+        path: "", component: Home, canActivate: [dashboardGuard],
+        children: [
+            {
+                path: 'profile',
+                component: EmptyComponent
+            }
+        ]
+    },
+    { path: "**", redirectTo: "" },
+
 ];

@@ -1,0 +1,26 @@
+nav {
+  position:sticky;
+  top: 0;
+  background-color: var(--mat-sys-primary-container);
+  /* color: var(--mat-sys-on-primary); */
+  width: 100%;
+}
+
+.logo {
+  align-self: center;
+  max-height: 2rem;
+  flex: 0 0 auto;
+  padding: 3px;
+  padding-left: 10px;
+}
+
+.spacer {
+  flex: 1 1 auto;  
+  min-width: 0;    
+}
+
+@media (max-width: 600px) {
+  .logo {
+    content: url("/assets/sumerge_logo_white_small.png"); 
+  }
+}

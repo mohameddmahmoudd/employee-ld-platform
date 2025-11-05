@@ -27,7 +27,10 @@ export function handleAuthResponse(request: Observable<LoginResponseDto>, compon
             /* TODO: make authSuccess function and call it, it will be responsible for 
              setting any variables in authservice. Not our issue here */
             /* TODO: CREATE SETTER AND GETTER */
-            component.authService.user = response.user;
+            component.authService.user = {
+                ...response.user,
+                roles: new Set(response.user.roles) // convert array -> Set
+            };
             component.authService.userToken = response.token;
             component.authService.isAuthenticated.set(true);
 
@@ -35,17 +38,7 @@ export function handleAuthResponse(request: Observable<LoginResponseDto>, compon
         },
         error: (error: HttpErrorResponse) => {
             component.authService.isAuthenticated.set(false);
-
-            /* TODO: move error handling to its own service or function? */
-            if (error.status === HttpStatusCode.Unauthorized) 
-                component.errorMessage.set("Invalid credentials. Try again.");
-            else if (error.status === HttpStatusCode.Conflict) 
-                component.errorMessage.set("Username already exists. Try again.");
-            else 
-                component.errorMessage.set("Something went wrong. Try again later.");
-        
-            component.errorState.set(true);
-            component.isLoading.set(false);
+            component.updateErrorMessage(error);
         }
     })
 }

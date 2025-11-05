@@ -1,4 +1,4 @@
-import { Role } from "./Role";
+// import { Role } from "./Role";
 
 export interface UserViewDto {
     id: number,
@@ -6,5 +6,5 @@ export interface UserViewDto {
     firstname: string, 
     lastname: string,
     managerId: number,
-    roles: Set<Role>
+    roles: Set<"EMPLOYEE" | "GUEST" | "ADMIN" | "MANAGER">//Set<Role>
 }

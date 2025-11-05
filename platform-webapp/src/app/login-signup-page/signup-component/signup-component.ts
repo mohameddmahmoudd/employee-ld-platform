@@ -8,7 +8,7 @@ import { MatCardModule } from '@angular/material/card';
 import { AuthService } from '../../auth-service';
 import { SignupRequestDto } from '../model/SignupRequestDto';
 import { handleAuthResponse, validateForm } from '../util';
-import { HttpErrorResponse } from '@angular/common/http';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
@@ -38,8 +38,16 @@ export class SignupComponent {
   errorMessage = signal('');
   isLoading = signal(false);
 
-  private updateErrorMessage() {
-    this.errorMessage.set("Please correct the errors in the form before submitting.");
+  updateErrorMessage(error: HttpErrorResponse | null = null) {
+    if (error)
+      if (error.status === HttpStatusCode.Conflict)
+        this.errorMessage.set("Username already exists. Try again.");
+      else
+        this.errorMessage.set("Something went wrong. Try again later.");
+    else
+      this.errorMessage.set("Please correct the errors in the form before submitting.");
+    this.errorState.set(true);
+    this.isLoading.set(false);
   }
 
   private sendAuthRequest() {

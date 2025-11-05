@@ -1,14 +1,12 @@
-import { HttpClient, HttpErrorResponse, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpHandlerFn, HttpRequest } from '@angular/common/http';
 import { inject, Injectable, signal } from '@angular/core';
-import { FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
-import { delay, Observable } from 'rxjs';
 import { environment } from './environment';
 import { LoginRequestDto } from './login-signup-page/model/LoginRequestDto';
 import { SignupRequestDto } from './login-signup-page/model/SignupRequestDto';
 import { LoginResponseDto } from './login-signup-page/model/LoginResponseDto';
 import { UserViewDto } from './model/UserViewDto';
-import { NONE_TYPE } from '@angular/compiler';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -24,7 +22,6 @@ export class AuthService {
   login(dto: LoginRequestDto) {
     let postEndpoint = environment.AUTH_API_URL + "/login";
     return this.http.post<LoginResponseDto>(postEndpoint, dto);
-    //.pipe(delay(2000) // simulate 2-second delay);
   }
 
   signup(dto: SignupRequestDto) {

@@ -9,6 +9,7 @@ import { AuthService } from '../../auth-service';
 import { LoginRequestDto } from '../model/LoginRequestDto';
 import { handleAuthResponse, validateForm } from '../util';
 import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';
+import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
 
 @Component({
   selector: 'app-login-component',
@@ -34,8 +35,16 @@ export class LoginComponent {
   errorMessage = signal('');
   isLoading = signal(false);
 
-  private updateErrorMessage() {
-    this.errorMessage.set("Please correct the errors in the form before submitting.");
+  updateErrorMessage(error: HttpErrorResponse | null = null) {
+    if (error)
+      if (error.status === HttpStatusCode.Unauthorized)
+        this.errorMessage.set("Invalid credentials. Try again.");
+      else
+        this.errorMessage.set("Something went wrong. Try again later.");
+    else
+      this.errorMessage.set("Please correct the errors in the form before submitting.");
+    this.errorState.set(true);
+    this.isLoading.set(false);
   }
 
   private sendAuthRequest() {

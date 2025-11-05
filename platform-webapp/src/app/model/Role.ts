@@ -1,3 +1,3 @@
-export interface Role {
-    role: "EMPLOYEE" | "GUEST" | "ADMIN" | "MANAGER"
-}
+// export interface Role {
+//     role: "EMPLOYEE" | "GUEST" | "ADMIN" | "MANAGER"
+// }
