@@ -28,6 +28,12 @@ export class AuthService {
     let postEndpoint = environment.AUTH_API_URL + "/signup";
     return this.http.post<LoginResponseDto>(postEndpoint, dto);
   }
+
+  logout(){
+    this.isAuthenticated.set(false);
+    this.user = null;
+    this.userToken = null;
+  }
 }
 
 

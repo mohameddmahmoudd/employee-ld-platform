@@ -15,8 +15,7 @@ import { merge, Subject, takeUntil } from 'rxjs';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
-    MatIconModule,
-    RouterLink    
+    MatIconModule    
   ],
   templateUrl: './field-component.html',
   styleUrl: './field-component.css',

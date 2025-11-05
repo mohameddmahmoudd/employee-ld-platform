@@ -1,11 +1,22 @@
 nav {
-  position:sticky;
-  top: 0;
+  /* TODO: this doesn't stick to top after one viewport-height-scroll */
+  /* position: sticky;
+  top: 0; */
+  position: fixed;
+  top:0;
+
   background-color: var(--mat-sys-primary-container);
-  /* color: var(--mat-sys-on-primary); */
   width: 100%;
 }
+/* this is to prevent top from overlapping nav */
 
+/* TODO: make nav collapse to a menu or something for */
+/*viewports with very tiny height (smaller than nav) */
+#space-top {
+  display: block;
+  height: 2rem;
+  max-height: 2rem;
+}
 .logo {
   align-self: center;
   max-height: 2rem;
@@ -24,3 +35,14 @@ nav {
     content: url("/assets/sumerge_logo_white_small.png"); 
   }
 }
+
+
+.logout-btn {
+  font-size: 1.2rem;
+  margin-left: 0.5rem;
+  color: var(--mat-sys-primary);
+  align-self: center;
+  transition-delay: 100ms;
+  transition: color 150ms linear;
+}
+.logout-btn:hover { color: var(--mat-sys-on-primary-container); }

@@ -1,5 +1,9 @@
+<span id="space-top"></span>
 <nav mat-tab-nav-bar [tabPanel]="tabPanel" mat-stretch-tabs="false" mat-align-tabs="end" fitInkBarToContent>
   <img src="assets/sumerge_logo_white_dim_small.png" alt="App Logo" class="logo" />
+  <a routerLink="login" class="logout-btn" aria-label="Logout">
+    <i class="fa-solid fa-right-from-bracket"></i>
+  </a>
   <span class="spacer" aria-hidden="true"></span>
 
   @for (link of links; track link) {
@@ -11,8 +15,14 @@
 </nav>
 
 <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-<mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 <!-- navbar should have learnings, wikis, blogs, and career package -->
   <!-- for guests, will only have blogs -->
 <!-- for admins, should also have an extra link for employee editing? -->
   <!-- should be sticky -->
+
+  
+<!-- <ng-container *ngComponentOutlet="getDashboardComponent()" /> -->
+   <!-- authService = inject(AuthService);
+  getDashboardComponent(){
+    return (this.authService.user?.roles.has("EMPLOYEE"))? EmployeeDashboardComponent : GuestDashboardComponent;
+  } -->

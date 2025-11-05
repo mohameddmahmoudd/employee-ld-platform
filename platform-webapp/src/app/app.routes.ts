@@ -10,12 +10,15 @@ export const routes: Routes = [
     { path: "login", component: LoginComponent },
     { path: "signup", component: SignupComponent },
     {
-        path: "", component: Home, canActivate: [dashboardGuard],
+        path: "", component: Home,
+        /*canActivate: [dashboardGuard],*/
         children: [
-            {
-                path: 'profile',
-                component: EmptyComponent
-            }
+            { path: 'profile', component: EmptyComponent },
+            { path: 'learnings', component: EmptyComponent }, //guard this
+            { path: 'wikis', component: EmptyComponent }, //guard this
+            { path: 'blogs', component: EmptyComponent },
+            { path: 'career-package', component: EmptyComponent }, //guard this
+            { path: 'employee-management', component: EmptyComponent }, //guard this
         ]
     },
     { path: "**", redirectTo: "" },

@@ -68,16 +68,15 @@ h3 {
 }
 
 :root {
-//    @include mat.toolbar-overrides((
-//     container-background-color: var(--mat-sys-primary),
-//     container-text-color: var(--mat-sys-on-primary),
-//     // container-height: 64px,
-//     // row-padding: 16px,
-//     // title-text-font: var(--mat-sys-title-large),
-//     // title-text-color: var(--mat-sys-on-primary),
-//     // icon-color: var(--mat-sys-on-primary),
-//     // divider-color: var(--mat-sys-outline),indi
-//   ));
+  //  @include mat.toolbar-overrides((
+    // container-background-color: var(--mat-sys-primary),
+    // container-text-color: var(--mat-sys-on-primary),
+    // container-height: 64px,
+    // row-padding: 16px,
+    // title-text-font: var(--mat-sys-title-large),
+    // title-text-color: var(--mat-sys-on-primary),
+    // icon-color: var(--mat-sys-on-primary)
+  // ));
   @include mat.tabs-overrides((
       active-indicator-height: 5px,
       // active-indicator-shape: rounded, // doesn't work, so check style below this
@@ -89,7 +88,7 @@ h3 {
       active-label-text-color:var(--mat-sys-on-primary-container),//
       active-ripple-color: var(--mat-sys-on-primary-container),
 
-      divider-color: var(--mat-sys-primary),
+      divider-color: var(--mat-sys-on-primary-container),
 
       inactive-focus-label-text-color: var(--mat-sys-on-primary-container),
       inactive-hover-label-text-color:var(--mat-sys-on-primary-container),

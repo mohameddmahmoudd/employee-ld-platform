@@ -4,7 +4,7 @@ import { Router, RouterModule, RouterOutlet } from "@angular/router";
 
 @Component({
   selector: 'app-nav-bar-component',
-  imports: [MatTabsModule, RouterOutlet, RouterModule],
+  imports: [MatTabsModule, RouterModule],
   templateUrl: './nav-bar-component.html',
   styleUrl: './nav-bar-component.css',
 })
@@ -13,11 +13,11 @@ export class NavBarComponent {
    links = [
     { label: 'Home', path: '' },
     { label: 'Profile', path: 'profile' },
-    { label: 'Learnings', path: 'login' },
-    { label: 'Wikis', path: 'login' },
-    { label: 'Blogs', path: 'login' },
-    { label: 'Career Package', path: 'login' },
-    { label: 'Employee Management', path: 'login' },
+    { label: 'Learnings', path: 'learnings' },
+    { label: 'Wikis', path: 'wikis' },
+    { label: 'Blogs', path: 'blogs' },
+    { label: 'Career Package', path: 'career-package' },
+    { label: 'Employee Management', path: 'employee-management' },
   ];
 
   constructor(public router: Router) {}

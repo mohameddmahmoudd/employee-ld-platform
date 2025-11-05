@@ -35,6 +35,9 @@ export class LoginComponent {
   errorMessage = signal('');
   isLoading = signal(false);
 
+  ngOnInit(){
+    this.authService.logout();
+  }
   updateErrorMessage(error: HttpErrorResponse | null = null) {
     if (error)
       if (error.status === HttpStatusCode.Unauthorized)
