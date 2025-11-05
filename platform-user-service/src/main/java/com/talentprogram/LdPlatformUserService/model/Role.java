@@ -9,19 +9,21 @@ import lombok.Setter;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
+import jakarta.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "roles")
+@Table(name = "roles",
+       uniqueConstraints = @UniqueConstraint(name = "uk_roles_name", columnNames = "name"))
 @NoArgsConstructor
-public class Role 
-{
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Getter
-    private Short id;
+public class Role {
 
-    @Column(name = "name", nullable = false, unique = true)
-    @Getter @Setter
-    private String name;
-    
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(columnDefinition = "smallserial")
+  @Getter
+  private Short id;
+
+  @Column(length = 32, nullable = false, unique = true)
+  @Getter @Setter
+  private String name;
 }
