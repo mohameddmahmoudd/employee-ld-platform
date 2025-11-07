@@ -1,12 +1,18 @@
-nav {
+.navbar {
   /* TODO: this doesn't stick to top after one viewport-height-scroll */
   /* position: sticky;
   top: 0; */
   position: fixed;
   top:0;
-
   background-color: var(--mat-sys-primary-container);
   width: 100%;
+}
+/* TODO: configure sidenav backdrop so clicking closes it, right now height:100% fixes it but breaks rest of page */
+mat-nav-list {
+  background-color: var(--mat-sys-primary-container);
+}
+mat-toolbar {
+  overflow-y: auto;
 }
 /* this is to prevent top from overlapping nav */
 
@@ -19,7 +25,7 @@ nav {
 }
 .logo {
   align-self: center;
-  max-height: 2rem;
+  max-height: 1.5rem;
   flex: 0 0 auto;
   padding: 3px;
   padding-left: 10px;
@@ -27,17 +33,10 @@ nav {
 
 .spacer {
   flex: 1 1 auto;  
-  min-width: 0;    
+  min-width: 10px;    
 }
 
-@media (max-width: 600px) {
-  .logo {
-    content: url("/assets/sumerge_logo_white_small.png"); 
-  }
-}
-
-
-.logout-btn {
+.btn {
   font-size: 1.2rem;
   margin-left: 0.5rem;
   color: var(--mat-sys-primary);
@@ -45,4 +44,18 @@ nav {
   transition-delay: 100ms;
   transition: color 150ms linear;
 }
-.logout-btn:hover { color: var(--mat-sys-on-primary-container); }
+.btn:hover { color: var(--mat-sys-on-primary-container); }
+
+@media (max-width: 600px) {
+  .logo {
+    content: url("/assets/sumerge_logo_white_small.png"); 
+    max-height: 2rem;
+  }
+  .btn {
+    font-size: 2rem;
+    /* margin-right: 0.7rem; */
+  }
+}
+
+
+

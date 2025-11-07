@@ -97,7 +97,24 @@ h3 {
       pagination-icon-color: var(--mat-sys-on-primary-container),
       // disabled-ripple-color:,
     ));
+@include mat.sidenav-overrides((
+    container-background-color: var(--mat-sys-primary-container),
+    // container-text-color: red,
+    // content-text-color: red
+  ));
+  @include mat.list-overrides((
+    list-item-label-text-color: var(--mat-sys-primary),
+    list-item-label-text-weight: var(--mat-tab-label-text-weight, var(--mat-sys-title-small-weight)),
+    list-item-hover-label-text-color: var(--mat-sys-on-primary-container),
+    list-item-focus-label-text-color: var(--mat-sys-on-primary-container),
+    // active-indicator-color: var(--mat-sys-primary, 70)
+  ));
 }
+    
+  
+// @include mat.sidenav-theme($my-theme);
 .mat-mdc-tab-nav-bar .mdc-tab-indicator__content--underline {
   border-radius: 9999px !important;
 }
+
+// TODO: hover colors for mat-list so sidenav hover is pretty. also focus-background-color

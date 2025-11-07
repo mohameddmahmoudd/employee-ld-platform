@@ -19,6 +19,7 @@ export const routes: Routes = [
             { path: 'blogs', component: EmptyComponent },
             { path: 'career-package', component: EmptyComponent }, //guard this
             { path: 'employee-management', component: EmptyComponent }, //guard this
+            { path: 'approvals', component: EmptyComponent }, //guard this
         ]
     },
     { path: "**", redirectTo: "" },

@@ -1,8 +1,13 @@
 <span id="space-top"></span>
-<nav mat-tab-nav-bar [tabPanel]="tabPanel" mat-stretch-tabs="false" mat-align-tabs="end" fitInkBarToContent>
+@if (!isMobile()){
+<nav class="navbar" mat-tab-nav-bar [tabPanel]="tabPanel" mat-stretch-tabs="false" mat-align-tabs="end"
+  fitInkBarToContent>
   <img src="assets/sumerge_logo_white_dim_small.png" alt="App Logo" class="logo" />
-  <a routerLink="login" class="logout-btn" aria-label="Logout">
+  <a matRipple [matRippleUnbounded]='true' routerLink="login" class="btn" aria-label="Logout" matTooltip="Logout">
     <i class="fa-solid fa-right-from-bracket"></i>
+  </a>
+  <a matRipple [matRippleUnbounded]='true' routerLink="profile" class="btn" aria-label="Profile" matTooltip="My Profile">
+    <i class="fa-solid fa-user"></i>
   </a>
   <span class="spacer" aria-hidden="true"></span>
 
@@ -15,14 +20,47 @@
 </nav>
 
 <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
-<!-- navbar should have learnings, wikis, blogs, and career package -->
-  <!-- for guests, will only have blogs -->
-<!-- for admins, should also have an extra link for employee editing? -->
-  <!-- should be sticky -->
+} @else {
+<mat-toolbar class="navbar">
+  <a matRipple [matRippleUnbounded]='true' (click)="snav.toggle()"  class="btn"><i class="fa-solid fa-bars"></i></a>
+  <img src="assets/sumerge_logo_white_dim_small.png" alt="App Logo" class="logo" />
 
+  <span class="spacer" aria-hidden="true"></span>
+  <!-- <a matRipple [matRippleUnbounded]='true' routerLink="home" class="btn" aria-label="Home">
+    <i class="fa-solid fa-house"></i>
+  </a> -->
+  <a matRipple [matRippleUnbounded]='true' routerLink="profile" class="btn" aria-label="Profile" matTooltip="My Profile">
+    <i class="fa-solid fa-user"></i>
+  </a>
+  <a matRipple [matRippleUnbounded]='true' routerLink="login" class="btn" aria-label="Logout" matTooltip="Logout">
+    <i class="fa-solid fa-right-from-bracket"></i>
+  </a>
+</mat-toolbar>
+
+<mat-sidenav-container>
+  <mat-sidenav #snav mode="over" [fixedInViewport]="true" fixedTopGap="56" [autoFocus]="false">
+    <mat-nav-list>
+      @for (link of links; track link) {
+      <a mat-list-item [routerLink]="link.path" routerLinkActive  #rla="routerLinkActive"
+        [routerLinkActiveOptions]="{ exact: true }" [class.mdc-list-item--activated]='rla.isActive'>
+        {{ link.label }}
+      </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
   
+  <mat-sidenav-content></mat-sidenav-content>
+</mat-sidenav-container>
+}
+<!-- navbar should have learnings, wikis, blogs, and career package -->
+<!-- for guests, will only have blogs -->
+<!-- for admins, should also have an extra link for employee editing? -->
+<!-- should be sticky -->
+
+
 <!-- <ng-container *ngComponentOutlet="getDashboardComponent()" /> -->
-   <!-- authService = inject(AuthService);
+<!-- authService = inject(AuthService);
   getDashboardComponent(){
     return (this.authService.user?.roles.has("EMPLOYEE"))? EmployeeDashboardComponent : GuestDashboardComponent;
-  } -->
+  }
+ -->

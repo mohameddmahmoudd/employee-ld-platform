@@ -37,7 +37,11 @@ export class SignupComponent {
   errorState = signal(false);
   errorMessage = signal('');
   isLoading = signal(false);
-
+  
+  ngOnInit(){
+    this.authService.logout();
+  }
+  
   updateErrorMessage(error: HttpErrorResponse | null = null) {
     if (error)
       if (error.status === HttpStatusCode.Conflict)
@@ -60,6 +64,7 @@ export class SignupComponent {
     return this.authService.signup(dto);
   }
 
+  // TODO: move trytoatuthenticate to util since it's common between the two pages signup and login
   tryToAuthenticate(event: Event) {
     this.isLoading.set(true);
     let newErrorState = validateForm(this.signupForm, this.fieldComponents());
