@@ -127,7 +127,7 @@ public class User implements UserDetails
  
     @Override
     public String getPassword() {
-        return this.password;
+        return this.id.toString();
     }
 }
 

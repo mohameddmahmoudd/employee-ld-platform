@@ -12,6 +12,4 @@ public class UserService
     public UserService(UserRepository users) {
         this.users = users;
     }
-
-    
 }
