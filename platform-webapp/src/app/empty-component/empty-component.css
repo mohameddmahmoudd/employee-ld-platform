@@ -1,0 +1,11 @@
+/* .mat-mdc-dialog-surface {
+    overflow: visible;
+    position: relative; 
+    border-radius: 0px;
+} */
+
+.caret {
+    position: absolute;
+    top: -8px;
+    left: 28px;
+}

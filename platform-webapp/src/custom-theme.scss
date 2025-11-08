@@ -12,13 +12,12 @@
 //grey: #BBBDC1
 
 html {
-  @include mat.theme((color: (
-    primary: $primary-palette,
-    tertiary: $tertiary-palette,
-    ),
-    typography: Roboto,
-    density: 0,
-  ));
+  @include mat.theme((color: (primary: $primary-palette,
+        tertiary: $tertiary-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    ));
   margin: 0;
   padding: 0;
   // width: 100vw;
@@ -69,52 +68,55 @@ h3 {
 
 :root {
   //  @include mat.toolbar-overrides((
-    // container-background-color: var(--mat-sys-primary),
-    // container-text-color: var(--mat-sys-on-primary),
-    // container-height: 64px,
-    // row-padding: 16px,
-    // title-text-font: var(--mat-sys-title-large),
-    // title-text-color: var(--mat-sys-on-primary),
-    // icon-color: var(--mat-sys-on-primary)
+  // container-background-color: var(--mat-sys-primary),
+  // container-text-color: var(--mat-sys-on-primary),
+  // container-height: 64px,
+  // row-padding: 16px,
+  // title-text-font: var(--mat-sys-title-large),
+  // title-text-color: var(--mat-sys-on-primary),
+  // icon-color: var(--mat-sys-on-primary)
   // ));
-  @include mat.tabs-overrides((
-      active-indicator-height: 5px,
+  @include mat.tabs-overrides((active-indicator-height: 5px,
       // active-indicator-shape: rounded, // doesn't work, so check style below this
       active-focus-indicator-color: var(--mat-sys-on-primary-container),
       active-focus-label-text-color: var(--mat-sys-on-primary-container),
       active-hover-indicator-color:var(--mat-sys-on-primary-container),
       active-hover-label-text-color:var(--mat-sys-on-primary-container),
-      active-indicator-color: var(--mat-sys-on-primary-container),//
-      active-label-text-color:var(--mat-sys-on-primary-container),//
+      active-indicator-color: var(--mat-sys-on-primary-container), //
+      active-label-text-color:var(--mat-sys-on-primary-container), //
       active-ripple-color: var(--mat-sys-on-primary-container),
 
       divider-color: var(--mat-sys-on-primary-container),
 
       inactive-focus-label-text-color: var(--mat-sys-on-primary-container),
       inactive-hover-label-text-color:var(--mat-sys-on-primary-container),
-      inactive-label-text-color: var(--mat-sys-primary),//
+      inactive-label-text-color: var(--mat-sys-primary), //
       inactive-ripple-color: var(--mat-sys-on-primary-container),
       pagination-icon-color: var(--mat-sys-on-primary-container),
       // disabled-ripple-color:,
     ));
-@include mat.sidenav-overrides((
-    container-background-color: var(--mat-sys-primary-container),
-    // container-text-color: red,
-    // content-text-color: red
-  ));
-  @include mat.list-overrides((
-    list-item-label-text-color: var(--mat-sys-primary),
-    list-item-label-text-weight: var(--mat-tab-label-text-weight, var(--mat-sys-title-small-weight)),
-    list-item-hover-label-text-color: var(--mat-sys-on-primary-container),
-    list-item-focus-label-text-color: var(--mat-sys-on-primary-container),
-    // active-indicator-color: var(--mat-sys-primary, 70)
-  ));
+  @include mat.sidenav-overrides((container-background-color: var(--mat-sys-primary-container),
+      // container-text-color: red,
+      // content-text-color: red
+    ));
+  @include mat.list-overrides((list-item-label-text-color: var(--mat-sys-primary),
+      list-item-label-text-weight: var(--mat-tab-label-text-weight, var(--mat-sys-title-small-weight)),
+      list-item-hover-label-text-color: var(--mat-sys-on-primary-container),
+      list-item-focus-label-text-color: var(--mat-sys-on-primary-container),
+      // active-indicator-color: var(--mat-sys-primary, 70)
+    ));
 }
-    
-  
+
+
 // @include mat.sidenav-theme($my-theme);
 .mat-mdc-tab-nav-bar .mdc-tab-indicator__content--underline {
   border-radius: 9999px !important;
 }
 
 // TODO: hover colors for mat-list so sidenav hover is pretty. also focus-background-color
+
+.cdk-overlay-pane .mat-mdc-dialog-surface {
+    overflow: visible; /* allow the caret to extend outside */
+    position: relative; 
+    /* border-radius: 0px; */
+}

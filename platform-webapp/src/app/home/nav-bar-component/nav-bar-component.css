@@ -12,7 +12,9 @@ mat-nav-list {
   background-color: var(--mat-sys-primary-container);
 }
 mat-toolbar {
-  overflow-y: auto;
+  overflow-y: hidden;
+  overflow-x: auto;
+  height: 3rem;
 }
 /* this is to prevent top from overlapping nav */
 
@@ -20,8 +22,8 @@ mat-toolbar {
 /*viewports with very tiny height (smaller than nav) */
 #space-top {
   display: block;
-  height: 2rem;
-  max-height: 2rem;
+  height: 3rem;
+  max-height: 3rem;
 }
 .logo {
   align-self: center;
