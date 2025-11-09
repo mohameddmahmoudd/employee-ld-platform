@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-notifications-component',
@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './notifications-component.css',
 })
 export class NotificationsComponent {
-
+  page = input.required<number>();
 }

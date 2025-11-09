@@ -10,7 +10,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterModule, RouterOutlet } from "@angular/router";
-import { NotificationsDialog } from '../notifications/notifications-dialog';
+import { NotificationsDialog } from '../notifications/notifications-dialog/notifications-dialog';
 
 @Component({
   selector: 'app-nav-bar-component',
@@ -61,30 +61,13 @@ export class NavBarComponent {
   }
 
   readonly dialog = inject(MatDialog);
-
+  // TODO: add number badge to notifications bell with the number of unread notifs. or at least a badge that shows that there are unread notifications
   openDialog(event: MouseEvent) {
     const buttonRect = (event.currentTarget as HTMLElement).getBoundingClientRect();
-
     if (this.isMobile()) {
-      // width: `100vw`,
-      this.dialog.open(NotificationsDialog, {
-        width: `100vw`,
-        position: {
-          top: `${buttonRect.bottom + 10}px`,
-        },
-      });
+      this.dialog.open(NotificationsDialog, NotificationsDialog.getMobileViewConfig(buttonRect));
     } else {
-      this.dialog.open(NotificationsDialog, {
-        position: {
-          top: `${buttonRect.bottom + 10}px`,
-          left: `${buttonRect.left - 28 - 10 + buttonRect.width / 2}px`, //28 is caret position, 10 is half caret width
-        },
-        // backdropClass: "backdrop" 
-        // TODO: decide whether we want outline to notifs and no backdrop or we want backdrop?
-
-      });
+      this.dialog.open(NotificationsDialog, NotificationsDialog.getDesktopViewConfig(buttonRect));
     }
-
   }
-  // activeLink = this.links[0];
 }

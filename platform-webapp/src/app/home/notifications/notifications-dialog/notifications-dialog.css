@@ -1,0 +1,13 @@
+.caret {
+    position: absolute;
+    top: -8px;
+    left: var(--mat-dialog-container-shape, var(--mat-sys-corner-extra-large, 4px));
+}
+
+@media (max-width: 600px) {
+    .caret {
+        visibility: hidden;
+        /* left: unset;
+        right: var(--mat-dialog-container-shape, var(--mat-sys-corner-extra-large, 4px)); */
+    }
+}
