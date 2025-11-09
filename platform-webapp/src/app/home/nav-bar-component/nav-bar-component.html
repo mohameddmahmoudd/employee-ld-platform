@@ -10,7 +10,7 @@
     <i class="fa-solid fa-user"></i>
   </a>
   <!-- TODO: not functioning yet -->
-  <a matRipple [matRippleUnbounded]='true' class="btn" aria-label="Notifications" matTooltip="Notifications">
+  <a matRipple [matRippleUnbounded]='true' class="btn" aria-label="Notifications" matTooltip="Notifications" (click)="openDialog($event)">
     <i class="fa-solid fa-bell"></i>
   </a>
   <span class="spacer" aria-hidden="true"></span>
@@ -34,7 +34,7 @@
     <i class="fa-solid fa-house"></i>
   </a> -->
   <!-- TODO: not functioning yet -->
-  <a matRipple [matRippleUnbounded]='true' class="btn" aria-label="Notifications" matTooltip="Notifications">
+  <a matRipple [matRippleUnbounded]='true' class="btn" aria-label="Notifications" matTooltip="Notifications" (click)="openDialog($event)">
     <i class="fa-solid fa-bell"></i>
   </a>
   <a matRipple [matRippleUnbounded]='true' routerLink="profile" class="btn" aria-label="Profile" matTooltip="My Profile">

@@ -120,3 +120,18 @@ h3 {
     position: relative; 
     /* border-radius: 0px; */
 }
+
+// TODO: this makes tooltip go above navbar, but doesn't work when notifications panel is open for some reason
+.mat-mdc-tooltip-panel {
+  overflow: visible;
+}
+
+// .mat-mdc-dialog-container {
+//   width: 100vw;
+// }
+@media (max-width: 600px){
+.cdk-global-overlay-wrapper {
+  justify-content: space-around !important;
+}
+}
+
