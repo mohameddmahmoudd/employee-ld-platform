@@ -1,19 +1,15 @@
 package com.talentprogram.LdPlatformNotificationService.model;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.Table;
 import lombok.NoArgsConstructor;
 import jakarta.persistence.Id;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Column;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.JoinColumn;
 import lombok.Getter;
 import lombok.Setter;
 import jakarta.persistence.Index;
-import jakarta.persistence.ForeignKey;
 import org.hibernate.annotations.CreationTimestamp;
 import jakarta.persistence.Enumerated;
 import jakarta.persistence.EnumType;
@@ -39,14 +35,14 @@ public class Notification {
   @Getter
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(
-      name = "recipient_user_id",
-      nullable = false,
-      foreignKey = @ForeignKey(name = "notifications_recipient_user_id_fkey"))
+ 
+  @Column(name = "recipient_user_id", nullable = false)
   @Getter @Setter
-  //private User recipient;
   private Long recipientUserId;
+
+  @Column(name = "recipient_username")
+  @Getter @Setter
+  private String recipientUsername;
 
   @Enumerated(EnumType.STRING)
   @Column(name = "type", length = 64, nullable = false)

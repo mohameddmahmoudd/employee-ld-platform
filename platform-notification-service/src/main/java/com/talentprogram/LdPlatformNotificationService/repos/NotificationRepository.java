@@ -17,7 +17,7 @@ import jakarta.transaction.Transactional;
 public interface NotificationRepository extends JpaRepository<Notification, Long>
 {
     Optional<Notification> findById(Long id);
-    List<Notification> findByRecipientUserId(Long userId);
+    List<Notification> findByRecipientUserId(Long recipientUserId);
     Page<Notification> findByRecipientUserIdOrderByCreatedAtDesc(Long recipientUserId, Pageable pageable);
     boolean existsById(Long id);
 
@@ -25,15 +25,16 @@ public interface NotificationRepository extends JpaRepository<Notification, Long
     @Query(
         """
         update Notification n
-        set n.isRead = true,
+        set n.read = true,
         n.readAt = :readAt
         where n.id = :id
-        and n.recipientUserId = :userId
-        and n.isRead = false
+        and n.recipientUserId = :recipientUserId
+        and n.read = false
         """
     )
+
     @Transactional
-    int markRead(@Param("userId") Long userId,
+    int markRead(@Param("recipientUserId") Long recipientUserId,
         @Param("id") Long id,
         @Param("readAt") Instant readAt
     );
