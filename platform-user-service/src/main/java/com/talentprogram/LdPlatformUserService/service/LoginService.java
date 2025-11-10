@@ -9,7 +9,7 @@ import java.util.Map;
 import com.talentprogram.LdPlatformUserService.dto.LoginRequestDTO;
 import com.talentprogram.LdPlatformUserService.dto.LoginResponseDTO;
 import com.talentprogram.LdPlatformUserService.model.User;
-import com.talentprogram.LdPlatformUserService.dto.UserViewDTO;
+import com.talentprogram.LdPlatformUserService.dto.UserDTO;
 
 @Service
 public class LoginService 
@@ -32,7 +32,7 @@ public class LoginService
             throw new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid credentials");
         }
 
-        UserViewDTO userView = new UserViewDTO(
+        UserDTO userView = new UserDTO(
             user.getId(),
             user.getFullName(),
             user.getUsername(),

@@ -2,7 +2,7 @@ package com.talentprogram.LdPlatformUserService.dto;
 import java.util.Set;
 import com.talentprogram.LdPlatformUserService.model.Role;
 
-public record UserViewDTO(
+public record UserDTO(
   Long id,
   String username,
   String fullName,

@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.talentprogram.LdPlatformUserService.dto.SignUpRequestDTO;
-import com.talentprogram.LdPlatformUserService.dto.UserViewDTO;
+import com.talentprogram.LdPlatformUserService.dto.UserDTO;
 import com.talentprogram.LdPlatformUserService.model.Role;
 import com.talentprogram.LdPlatformUserService.model.User;
 import com.talentprogram.LdPlatformUserService.repos.RoleRepository;
@@ -26,7 +26,7 @@ public class SignupService {
     }
 
     @Transactional
-    public UserViewDTO signup(SignUpRequestDTO request)
+    public UserDTO signup(SignUpRequestDTO request)
     {
             if (users.existsByUsername(request.username()))
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "name already exists");
@@ -45,7 +45,7 @@ public class SignupService {
 
         users.save(newUser);
 
-        UserViewDTO userView = new UserViewDTO(
+        UserDTO userView = new UserDTO(
             newUser.getId(),
             newUser.getFullName(),
             newUser.getUsername(),

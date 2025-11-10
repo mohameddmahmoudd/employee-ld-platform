@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import static org.springframework.http.HttpStatus.CREATED;
 import jakarta.validation.Valid;
-import com.talentprogram.LdPlatformUserService.dto.UserViewDTO;
+import com.talentprogram.LdPlatformUserService.dto.UserDTO;
 
 
 @RestController
@@ -28,7 +28,7 @@ public class AuthController
 
     @PostMapping("auth/signup")
     @ResponseStatus(CREATED)
-    public UserViewDTO signup(@Valid @RequestBody SignUpRequestDTO entity) {        
+    public UserDTO signup(@Valid @RequestBody SignUpRequestDTO entity) {        
         return signupService.signup(entity);
     }
     
