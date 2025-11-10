@@ -24,8 +24,16 @@ public class ApplicationConfig
 
     @Bean
     public UserDetailsService userDetailsService() {
-        return username -> userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        return identifier -> {
+            if (identifier != null && identifier.chars().allMatch(Character::isDigit)) {
+                Long userId = Long.parseLong(identifier);
+                return userRepository.findById(userId)
+                        .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+            }
+
+            return userRepository.findByUsername(identifier)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+        };
     }
 
     @Bean

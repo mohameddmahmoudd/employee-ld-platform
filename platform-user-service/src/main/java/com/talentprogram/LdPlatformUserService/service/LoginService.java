@@ -2,6 +2,8 @@ package com.talentprogram.LdPlatformUserService.service;
 
 import com.talentprogram.LdPlatformUserService.repos.UserRepository;
 
+import io.jsonwebtoken.security.InvalidKeyException;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -22,8 +24,7 @@ public class LoginService
         this.jwtService = jwtService;
     }
 
-    public LoginResponseDTO login(LoginRequestDTO request) {
-        /* TODO Implement login logic */
+    public LoginResponseDTO login(LoginRequestDTO request) throws ResponseStatusException, InvalidKeyException, NoSuchFieldException, SecurityException, IllegalAccessException{
 
         User user = users.findByUsername(request.username())
         .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid credentials"));

@@ -10,7 +10,6 @@ import com.talentprogram.LdPlatformUserService.repos.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Optional;
-import  java.util.Set;
 import com.talentprogram.LdPlatformUserService.model.Role;
 import com.talentprogram.LdPlatformUserService.dto.UserDTO;
 import java.util.List;
@@ -57,7 +56,8 @@ public class UserService
                 .orElseThrow(() -> new IllegalArgumentException("Unknown role: " + role));
         
         Role NewUserRole = this.roles.findByName("NEWUSER").orElseThrow();
-        
+        Role EmployeeRole = this.roles.findByName("EMPLOYEE").orElseThrow();
+
         if (user != null) 
         {
             if (user.getRoles() == null) {
@@ -65,6 +65,7 @@ public class UserService
             }
             if(user.getRoles().contains(NewUserRole)) {
                 user.getRoles().remove(NewUserRole);
+                user.getRoles().add(EmployeeRole);
             }
             user.getRoles().add(roleEntity);
             users.save(user);

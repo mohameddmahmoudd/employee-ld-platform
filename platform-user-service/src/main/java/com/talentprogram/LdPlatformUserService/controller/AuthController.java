@@ -5,7 +5,11 @@ import com.talentprogram.LdPlatformUserService.dto.LoginResponseDTO;
 import com.talentprogram.LdPlatformUserService.dto.SignUpRequestDTO;
 import com.talentprogram.LdPlatformUserService.service.LoginService;
 import com.talentprogram.LdPlatformUserService.service.SignupService;
+
+import io.jsonwebtoken.security.InvalidKeyException;
+
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -33,7 +37,7 @@ public class AuthController
     }
     
     @PostMapping("auth/login")
-    public LoginResponseDTO login(@RequestBody LoginRequestDTO entity) {
+    public LoginResponseDTO login(@RequestBody LoginRequestDTO entity) throws InvalidKeyException, ResponseStatusException, NoSuchFieldException, SecurityException, IllegalAccessException {
         return loginService.login(entity);
     }
     
