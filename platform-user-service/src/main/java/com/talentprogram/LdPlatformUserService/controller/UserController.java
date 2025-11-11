@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.talentprogram.LdPlatformUserService.dto.UserDTO;
+import com.talentprogram.LdPlatformUserService.dto.UserUpdateInfoDTO;
 import com.talentprogram.LdPlatformUserService.model.User;
 import java.util.Optional;
 
@@ -34,13 +35,12 @@ public class UserController
     }
 
     @GetMapping("/{id}")
-    public Optional<User> getUser(@PathVariable Long id) {
-       return userService.getUserById(id);
+    public UserDTO getUser(@PathVariable Long id) {
+       return ViewMapper.toUserDTO(userService.getUserById(id).orElse(null));
     }
 
     @PutMapping("/{id}")
-    @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
-    public UserDTO updateUserInfo(@PathVariable Long id, @RequestBody UserDTO entity) {
+    public UserDTO updateUserInfo(@PathVariable Long id, @RequestBody UserUpdateInfoDTO entity) {
         Optional<User> updatedUser = userService.updateUser(id, entity);
         if (updatedUser.isPresent()) {
             User user = updatedUser.get();
@@ -63,9 +63,10 @@ public class UserController
     }
 
     @PatchMapping("/{id}/managerId")
-    public Optional<User> updateUserManager(@PathVariable Long id, @RequestParam Long managerId)
+    @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
+    public UserDTO updateUserManager(@PathVariable Long id, @RequestParam Long managerId)
     {
-        return userService.updateUserManager(id, managerId);
+        return ViewMapper.toUserDTO(userService.updateUserManager(id, managerId).orElse(null));
     }
 
 }

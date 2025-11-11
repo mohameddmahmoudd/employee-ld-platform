@@ -11,7 +11,8 @@ import jakarta.persistence.EntityNotFoundException;
 
 import java.util.Optional;
 import com.talentprogram.LdPlatformUserService.model.Role;
-import com.talentprogram.LdPlatformUserService.dto.UserDTO;
+import com.talentprogram.LdPlatformUserService.dto.UserUpdateInfoDTO;
+
 import java.util.List;
 
 @Service
@@ -30,7 +31,7 @@ public class UserService
     }
 
     @Transactional
-    public Optional<User> updateUser(Long id, UserDTO entity) {
+    public Optional<User> updateUser(Long id, UserUpdateInfoDTO entity) {
         
         User user = users.findById(id).orElseThrow(() -> new EntityNotFoundException("user"));
 
@@ -92,6 +93,12 @@ public class UserService
         }
 
         return Optional.of(user);
+    }
+
+    public void updateUserPassword(Long id, String newPassword) {
+        User user = users.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
+        user.setPassword(newPassword);
+        users.save(user);
     }
 
 }
