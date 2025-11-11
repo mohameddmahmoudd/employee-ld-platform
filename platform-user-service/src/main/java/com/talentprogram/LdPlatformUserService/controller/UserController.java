@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import com.talentprogram.LdPlatformUserService.dto.UserDTO;
 import com.talentprogram.LdPlatformUserService.dto.UserUpdateInfoDTO;
 import com.talentprogram.LdPlatformUserService.model.User;
+
+import java.util.Objects;
 import java.util.Optional;
 
 import org.springframework.web.bind.annotation.PutMapping;
@@ -37,6 +39,11 @@ public class UserController
     @GetMapping("/{id}")
     public UserDTO getUser(@PathVariable Long id) {
        return ViewMapper.toUserDTO(userService.getUserById(id).orElse(null));
+    }
+
+    @GetMapping("/username")
+    public UserDTO getUserByUsername(@RequestParam String username) {
+        return ViewMapper.toUserDTO(Objects.requireNonNull(userService.getUserByUsername(username).orElse(null)));
     }
 
     @PutMapping("/{id}")

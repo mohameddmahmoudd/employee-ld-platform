@@ -27,7 +27,11 @@ public class UserService
     }
 
     public Optional<User> getUserById(Long id) {
-        return Optional.of(users.findById(id).orElse(null));
+        return users.findById(id);
+    }
+
+    public Optional<User> getUserByUsername(String username) {
+        return users.findByUsername(username);
     }
 
     @Transactional

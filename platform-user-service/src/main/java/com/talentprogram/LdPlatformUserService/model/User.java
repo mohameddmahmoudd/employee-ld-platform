@@ -42,7 +42,6 @@ public class User implements UserDetails
 {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(columnDefinition = "bigserial")
   @Getter
   private Long id;
  

@@ -19,7 +19,6 @@ public class Role {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(columnDefinition = "smallserial")
   @Getter
   private Short id;
 
