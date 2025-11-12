@@ -105,4 +105,8 @@ public class UserService
         users.save(user);
     }
 
+    public List<String> getAllRoles() {
+        return roles.findAll().stream().map(Role::getName).toList();
+    }
+
 }
