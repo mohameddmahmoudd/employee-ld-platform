@@ -82,13 +82,9 @@ public class UserService
     public Optional<User> updateUserManager(Long id, Long managerId) {
         
         User user = users.findById(id).orElse(null);
-        
-        if (user != null && (managerId == null || !managerId.equals(id))) {
+
+        if (user != null) {
             user.setManager(users.findById(managerId).orElse(null));
-            users.save(user);
-        }
-        else if (user != null && managerId == null) {
-            user.setManager(null);
             users.save(user);
         }
         else
