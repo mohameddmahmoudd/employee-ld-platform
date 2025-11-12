@@ -66,7 +66,7 @@ public class UserController
     }
 
     @PatchMapping("/{id}/role")
-    public List<String> updateUserRole(@PathVariable Long id, @RequestParam String role) {
+    public List<String> updateUserRole(@PathVariable Long id, @RequestBody List<String> role) {
         return userService.updateUserRole(id, role);
     }
 

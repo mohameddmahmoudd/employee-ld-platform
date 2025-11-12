@@ -53,34 +53,26 @@ public class UserService
     }
 
     @Transactional
-    public List<String> updateUserRole(Long id, String role) {
+    public List<String> updateUserRole(Long id, List<String> role) {
         User user = users.findById(id).orElse(null);
-        String normalized = role == null ? "" : role.trim().toUpperCase();
-        
-        Role roleEntity = this.roles.findByName(normalized)
-                .orElseThrow(() -> new IllegalArgumentException("Unknown role: " + role));
-        
-        Role NewUserRole = this.roles.findByName("GUEST").orElseThrow();
-        Role EmployeeRole = this.roles.findByName("EMPLOYEE").orElseThrow();
+        if (user == null) return List.of();
 
-        if (user != null) 
-        {
-            if (user.getRoles() == null) {
-            user.setRoles(new java.util.HashSet<>());
-            }
-            if(user.getRoles().contains(NewUserRole)) {
-                user.getRoles().remove(NewUserRole);
-                user.getRoles().add(EmployeeRole);
-            }
+        user.getRoles().clear();
+
+        for (String roleName : role) {
+            String normalized = roleName == null ? "" : roleName.trim().toUpperCase();
+            Role roleEntity = roles.findByName(normalized)
+                    .orElseThrow(() -> new IllegalArgumentException("Unknown role: " + roleName));
             user.getRoles().add(roleEntity);
-            users.save(user);
         }
+
+        users.save(user);
         return user.getRoles().stream().map(Role::getName).toList();
     }
 
     @Transactional
     public Optional<User> updateUserManager(Long id, Long managerId) {
-        
+
         User user = users.findById(id).orElse(null);
 
         if (user != null) {
