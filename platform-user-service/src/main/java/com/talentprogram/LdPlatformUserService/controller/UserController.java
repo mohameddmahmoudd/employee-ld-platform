@@ -36,13 +36,13 @@ public class UserController
         this.userService = userService;
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/id/{id}")
     public UserDTO getUser(@PathVariable Long id) {
        return ViewMapper.toUserDTO(userService.getUserById(id).orElse(null));
     }
 
-    @GetMapping("/username")
-    public UserDTO getUserByUsername(@RequestParam String username) {
+    @GetMapping("/username/{username}")
+    public UserDTO getUserByUsername(@PathVariable String username) {
         return ViewMapper.toUserDTO(Objects.requireNonNull(userService.getUserByUsername(username).orElse(null)));
     }
 
