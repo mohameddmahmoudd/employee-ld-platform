@@ -10,4 +10,6 @@ public record EventModel
     String aggregate_id,    /*The specific instance this event is about a specific user: mohamed*/
     Map<String, Object> data
 )
-{}
+{
+
+}
