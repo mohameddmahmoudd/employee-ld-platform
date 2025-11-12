@@ -35,8 +35,8 @@ public class LoginService
 
         UserDTO userView = new UserDTO(
             user.getId(),
-            user.getFullName(),
             user.getUsername(),
+            user.getFullName(),
             user.getTitle(),
             user.getManager() != null ? user.getManager().getId() : null,
             user.getRoles()
