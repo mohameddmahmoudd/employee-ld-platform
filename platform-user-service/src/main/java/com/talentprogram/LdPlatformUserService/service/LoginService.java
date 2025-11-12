@@ -48,4 +48,11 @@ public class LoginService
         );
 
     } 
+
+    public LoginResponseDTO buildLoginResponse(UserDTO userDto) throws InvalidKeyException, ResponseStatusException, NoSuchFieldException, SecurityException, IllegalAccessException {
+        User user = users.findById(userDto.id())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.UNAUTHORIZED, "invalid credentials"));
+        LoginRequestDTO request = new LoginRequestDTO(user.getUsername(), user.getPassword());
+        return login(request);
+    }
 }

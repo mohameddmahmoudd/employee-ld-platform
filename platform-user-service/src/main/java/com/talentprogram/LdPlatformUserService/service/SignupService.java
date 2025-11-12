@@ -31,7 +31,7 @@ public class SignupService {
             if (users.existsByUsername(request.username()))
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "name already exists");
 
-        Role defaultRole = roles.findByName("NEWUSER")
+        Role defaultRole = roles.findByName("GUEST")
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "default role not found"));
 
         User newUser = new User();
@@ -47,8 +47,8 @@ public class SignupService {
 
         UserDTO userView = new UserDTO(
             newUser.getId(),
-            newUser.getFullName(),
             newUser.getUsername(),
+            newUser.getFullName(),
             newUser.getTitle(),
             newUser.getManager() != null ? newUser.getManager().getId() : null,
             newUser.getRoles()

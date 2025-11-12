@@ -60,7 +60,7 @@ public class UserService
         Role roleEntity = this.roles.findByName(normalized)
                 .orElseThrow(() -> new IllegalArgumentException("Unknown role: " + role));
         
-        Role NewUserRole = this.roles.findByName("NEWUSER").orElseThrow();
+        Role NewUserRole = this.roles.findByName("GUEST").orElseThrow();
         Role EmployeeRole = this.roles.findByName("EMPLOYEE").orElseThrow();
 
         if (user != null) 

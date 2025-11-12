@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import static org.springframework.http.HttpStatus.CREATED;
+
 import jakarta.validation.Valid;
 import com.talentprogram.LdPlatformUserService.dto.UserDTO;
 
@@ -32,14 +33,16 @@ public class AuthController
 
     @PostMapping("auth/signup")
     @ResponseStatus(CREATED)
-    public UserDTO signup(@Valid @RequestBody SignUpRequestDTO entity) {        
-        return signupService.signup(entity);
+    public LoginResponseDTO signup(@Valid @RequestBody SignUpRequestDTO entity) throws InvalidKeyException, ResponseStatusException, NoSuchFieldException, SecurityException, IllegalAccessException {        
+        
+        UserDTO user = signupService.signup(entity);
+        return loginService.buildLoginResponse(user);
     }
     
     @PostMapping("auth/login")
     public LoginResponseDTO login(@RequestBody LoginRequestDTO entity) throws InvalidKeyException, ResponseStatusException, NoSuchFieldException, SecurityException, IllegalAccessException {
         return loginService.login(entity);
     }
-    
-    
+
 }
+
