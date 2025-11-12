@@ -54,8 +54,7 @@ public class UserService
 
     @Transactional
     public List<String> updateUserRole(Long id, List<String> role) {
-        User user = users.findById(id).orElse(null);
-        if (user == null) return List.of();
+        User user = users.findById(id).orElseThrow(() -> new EntityNotFoundException("User " + id + " not found"));
 
         user.getRoles().clear();
 
