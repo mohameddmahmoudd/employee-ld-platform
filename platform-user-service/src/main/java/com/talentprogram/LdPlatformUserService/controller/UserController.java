@@ -24,6 +24,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import com.talentprogram.LdPlatformUserService.utils.ViewMapper;
 import java.util.List;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.http.HttpStatus;
 
 
 @RestController
@@ -38,12 +40,13 @@ public class UserController
 
     @GetMapping("/id/{id}")
     public UserDTO getUser(@PathVariable Long id) {
-       return ViewMapper.toUserDTO(userService.getUserById(id).orElse(null));
+       return ViewMapper.toUserDTO(userService.getUserById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id)));
+
     }
 
     @GetMapping("/username/{username}")
     public UserDTO getUserByUsername(@PathVariable String username) {
-        return ViewMapper.toUserDTO(Objects.requireNonNull(userService.getUserByUsername(username).orElse(null)));
+        return ViewMapper.toUserDTO(Objects.requireNonNull(userService.getUserByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with username: " + username))));
     }
 
     @PutMapping("/{id}")
@@ -54,7 +57,7 @@ public class UserController
             return ViewMapper.toUserDTO(user);
         }
         else {
-            throw new EntityNotFoundException("User not found with id: " + id);
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id);
         }
     }
 
