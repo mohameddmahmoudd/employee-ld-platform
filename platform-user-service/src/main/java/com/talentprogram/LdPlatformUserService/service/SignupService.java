@@ -1,6 +1,7 @@
 package com.talentprogram.LdPlatformUserService.service;
 
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -66,7 +67,7 @@ public class SignupService {
             newUser.getFullName(),
             newUser.getTitle(),
             newUser.getManager() != null ? newUser.getManager().getId() : null,
-            newUser.getRoles()
+            newUser.getRoles().stream().map(Role::getName).collect(Collectors.toSet())
         );
 
         return userView;
