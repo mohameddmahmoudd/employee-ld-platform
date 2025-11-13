@@ -6,5 +6,5 @@ export interface UserDto {
     fullName: string,
     title: string,
     managerId: number,
-    roles: Set<Role> //Set<"EMPLOYEE" | "GUEST" | "ADMIN" | "MANAGER">//
+    roles: string[]//("EMPLOYEE" | "GUEST" | "ADMIN" | "MANAGER")[];
 }

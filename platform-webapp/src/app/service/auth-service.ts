@@ -16,8 +16,8 @@ export class AuthService {
   router = inject(Router);
   isAuthenticated = signal(false);
 
-  user : UserDto | null = null;
-  userToken : string | null = null;
+  user: UserDto | null = null;
+  userToken: string | null = null;
 
   login(dto: LoginRequestDto) {
     let postEndpoint = environment.AUTH_API_URL + "/login";
@@ -29,16 +29,17 @@ export class AuthService {
     return this.http.post<LoginResponseDto>(postEndpoint, dto);
   }
 
-  logout(){
+  logout() {
     this.isAuthenticated.set(false);
     this.user = null;
     this.userToken = null;
   }
 
-  checkRole(user: UserDto | null, role: String){
+  checkRole(user: UserDto | null, role: string) {
     if (!user) return false;
-    return [...user.roles].some(r => r.name === role);
+    return user.roles.includes(role);
   }
+
 }
 
 

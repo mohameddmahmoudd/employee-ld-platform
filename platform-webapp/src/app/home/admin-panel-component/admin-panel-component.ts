@@ -11,7 +11,6 @@ import { MatChipsModule } from '@angular/material/chips';
 import { UserService } from '../../service/user-service';
 import { UserDto } from '../../model/UserDto';
 import { HttpErrorResponse } from '@angular/common/http';
-import { Role } from '../../model/Role';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { delay, Observable } from 'rxjs';
 import { MatRippleModule } from '@angular/material/core';
@@ -87,9 +86,7 @@ export class AdminPanelComponent {
   private setSearchedForUserRoles(data: UserDto) {
     this.defaultRoles = this.defaultRoles.map(r => ({
       ...r,
-      isSelected: Array.from(data.roles ?? []).some(
-        userRole => userRole.name === r.name
-      )
+      isSelected: (data.roles ?? []).includes(r.name)
     }));
   }
   private setSearchedForUserManager(data: UserDto) {
@@ -199,12 +196,12 @@ export class AdminPanelComponent {
     this.isLoadingSave.set(true);
     const currentUser = this.currentUser()!;
     const userTitle = (event.target as HTMLElement).innerText.trim();
-    const newData : UserUpdateInfoDTO = {
+    const newData: UserUpdateInfoDTO = {
       title: userTitle,
       username: currentUser.username,
       fullName: currentUser.fullName
     }
-    let request =  this.userService.updateUserInfo(currentUser.id, newData);
+    let request = this.userService.updateUserInfo(currentUser.id, newData);
     this.subscribtionToSaveRequestsHandler(request);
   }
 }
