@@ -3,6 +3,7 @@ import { environment } from '../environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserDto } from '../model/UserDto';
 import { Role } from '../model/Role';
+import { UserUpdateInfoDTO } from '../home/admin-panel-component/UserUpdateInfoDto';
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +19,7 @@ export class UserService {
     const url = `${environment.USERS_API_URL}/username/${username}`;
     return this.http.get<UserDto>(url);
   }
-  updateUserInfo(id: number, dto: UserDto) {
+  updateUserInfo(id: number, dto: UserUpdateInfoDTO) {
     const url = `${environment.USERS_API_URL}/${id}`;
     return this.http.put<UserDto>(url, dto);
   }

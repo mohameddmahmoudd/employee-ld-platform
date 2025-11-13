@@ -14,6 +14,8 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { Role } from '../../model/Role';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { delay, Observable } from 'rxjs';
+import { MatRippleModule } from '@angular/material/core';
+import { UserUpdateInfoDTO } from './UserUpdateInfoDto';
 
 // TODO: guard for admin-panel component bc it doesn't exist yet
 @Component({
@@ -28,8 +30,8 @@ import { delay, Observable } from 'rxjs';
     MatButtonModule,
     MatIconModule,
     MatChipsModule,
-    MatSnackBarModule 
-    // TODO: add matripple and make save buttons ripple!
+    MatSnackBarModule,
+    MatRippleModule
   ],
   templateUrl: './admin-panel-component.html',
   styleUrl: './admin-panel-component.css',
@@ -50,14 +52,14 @@ export class AdminPanelComponent {
   saveErrorMessage: string = '';
   errorSaving = signal(false);
 
-  constructor() {
+  ngOnInit() {
     // TODO: remove this delay, this is just for illustration lol
     let rolesRequest = this.userService.fetchDefaultRoles().pipe(delay(10000)).subscribe({
       next: (response: string[]) => {
         this.defaultRoles = response.map(r => ({ name: r, isSelected: false }));
         console.log(response);
 
-        let currentUser = this.currentUser? this.currentUser() : null; 
+        let currentUser = this.currentUser ? this.currentUser() : null;
         if (currentUser) {
           this.setSearchedForUserRoles(currentUser);
         }
@@ -79,6 +81,9 @@ export class AdminPanelComponent {
     this.currentUserManager.set(null);
   }
 
+  private setSearchedForUser(data: UserDto) {
+    this.currentUser.set(data);
+  }
   private setSearchedForUserRoles(data: UserDto) {
     this.defaultRoles = this.defaultRoles.map(r => ({
       ...r,
@@ -86,9 +91,6 @@ export class AdminPanelComponent {
         userRole => userRole.name === r.name
       )
     }));
-  }
-  private setSearchedForUser(data: UserDto) {
-    this.currentUser.set(data);
   }
   private setSearchedForUserManager(data: UserDto) {
     let managerId = data.managerId;
@@ -107,7 +109,7 @@ export class AdminPanelComponent {
       })
     }
   }
-  
+
   onSearch() {
     let searchValue = this.searchCtrl.value?.trim();
     if (!searchValue || searchValue === '') return;
@@ -152,7 +154,7 @@ export class AdminPanelComponent {
   saveRoles(event: Event) {
     this.isLoadingSave.set(true);
     let currentUser = this.currentUser()!; // exclamaion point because you WILL NOT access this unless you have a valid current user
-    
+
     const selected = this.defaultRoles.filter(d => d.isSelected).map(d => d.name);
     let updateUserRolesRequest = this.userService.updateUserRoles(currentUser.id, selected);
     this.subscribtionToSaveRequestsHandler(updateUserRolesRequest);
@@ -181,7 +183,7 @@ export class AdminPanelComponent {
   }
   saveManager(event: Event) {
     this.isLoadingSave.set(true);
-    let currentUser = this.currentUser()!; // exclamaion point because you WILL NOT access this unless you have a valid current user
+    const currentUser = this.currentUser()!; // exclamaion point because you WILL NOT access this unless you have a valid current user
     // await new Promise(r => setTimeout(r, 5000));
     let managerUserName = (event.target as HTMLElement).innerText.trim();
     // TODO: on signup, validate that there are no spaces in the username
@@ -191,7 +193,18 @@ export class AdminPanelComponent {
       this.handleUpdateManagerByUsernameRequest(currentUser, managerUserName);
     }
   }
+
+
   saveTitle(event: Event) {
     this.isLoadingSave.set(true);
+    const currentUser = this.currentUser()!;
+    const userTitle = (event.target as HTMLElement).innerText.trim();
+    const newData : UserUpdateInfoDTO = {
+      title: userTitle,
+      username: currentUser.username,
+      fullName: currentUser.fullName
+    }
+    let request =  this.userService.updateUserInfo(currentUser.id, newData);
+    this.subscribtionToSaveRequestsHandler(request);
   }
 }
