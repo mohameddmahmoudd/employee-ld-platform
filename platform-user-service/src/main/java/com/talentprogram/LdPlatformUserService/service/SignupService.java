@@ -8,12 +8,16 @@ import org.springframework.web.server.ResponseStatusException;
 
 import com.talentprogram.LdPlatformUserService.dto.SignUpRequestDTO;
 import com.talentprogram.LdPlatformUserService.dto.UserDTO;
-import com.talentprogram.LdPlatformUserService.model.Role;
-import com.talentprogram.LdPlatformUserService.model.User;
+import com.talentprogram.LdPlatformUserService.entity.Role;
+import com.talentprogram.LdPlatformUserService.entity.User;
 import com.talentprogram.LdPlatformUserService.repos.RoleRepository;
 import com.talentprogram.LdPlatformUserService.repos.UserRepository;
+
+import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.stereotype.Service;
 
+@Slf4j
 @Service
 public class SignupService {
 
@@ -28,11 +32,17 @@ public class SignupService {
     @Transactional
     public UserDTO signup(SignUpRequestDTO request)
     {
+        log.debug("Attempting signup for user: {}", request.username());
             if (users.existsByUsername(request.username()))
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "name already exists");
+            {
+                log.info("Signup attempt failed for username: {}, username already exists"
+                , request.username());
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
+            }
 
         Role defaultRole = roles.findByName("GUEST")
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "default role not found"));
+            .orElseThrow(() ->{ log.info("Default role GUEST not found during signup for username: {}", request.username());
+             return new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Default role not found");});
 
         User newUser = new User();
         newUser.setUsername(request.username());
@@ -44,6 +54,8 @@ public class SignupService {
         newUser.setLearningPoints(0);
 
         users.save(newUser);
+
+        log.debug("Signup successful for user: {}", request.username());
 
         UserDTO userView = new UserDTO(
             newUser.getId(),

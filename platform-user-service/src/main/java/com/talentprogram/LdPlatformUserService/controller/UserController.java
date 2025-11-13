@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.talentprogram.LdPlatformUserService.dto.UserDTO;
 import com.talentprogram.LdPlatformUserService.dto.UserUpdateInfoDTO;
-import com.talentprogram.LdPlatformUserService.model.User;
+import com.talentprogram.LdPlatformUserService.entity.User;
 
 import java.util.Objects;
 import java.util.Optional;

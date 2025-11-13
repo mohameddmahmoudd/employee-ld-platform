@@ -1,6 +1,7 @@
 package com.talentprogram.LdPlatformUserService.dto;
 import java.util.Set;
-import com.talentprogram.LdPlatformUserService.model.Role;
+
+import com.talentprogram.LdPlatformUserService.entity.Role;
 
 public record UserDTO(
   Long id,

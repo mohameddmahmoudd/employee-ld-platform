@@ -1,4 +1,4 @@
-package com.talentprogram.LdPlatformUserService.model;
+package com.talentprogram.LdPlatformUserService.entity;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

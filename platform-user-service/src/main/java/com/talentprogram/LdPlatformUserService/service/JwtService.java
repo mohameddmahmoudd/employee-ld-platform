@@ -9,6 +9,8 @@ import com.talentprogram.LdPlatformUserService.config.JwtConfig;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.InvalidKeyException;
 import io.jsonwebtoken.security.Keys;
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Date;
 import io.jsonwebtoken.Claims;
 import java.util.function.Function;
@@ -17,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Map;
 import java.lang.reflect.Field;
 
+@Slf4j
 @Service
 public class JwtService 
 {
@@ -29,6 +32,7 @@ public class JwtService
   }
 
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) throws InvalidKeyException, NoSuchFieldException, SecurityException, IllegalAccessException {
+        log.debug("Generating token for user: {}", userDetails.getUsername());
         return buildToken(extraClaims, userDetails, expiration);
     }
 
@@ -43,7 +47,7 @@ public class JwtService
             String userId = resolveUserId(userDetails);
             subjectMatchesId = userId != null && subject.equals(userId);
         }
-
+        log.debug("Token validation for user: {} - usernameMatches: {}, subjectMatchesId: {}, isTokenExpired: {}", userDetails.getUsername(), usernameMatches, subjectMatchesId, isTokenExpired(token));
         return (usernameMatches || subjectMatchesId) && !isTokenExpired(token);
     }
 
@@ -55,7 +59,7 @@ public class JwtService
         return extractClaim(token, Claims::getSubject);
     }
 
-    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) throws InvalidKeyException {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -86,7 +90,7 @@ public class JwtService
     }
     
 
-    private Claims extractAllClaims(String token) {
+    private Claims extractAllClaims(String token) throws InvalidKeyException {
         return Jwts
                 .parser()
                 .verifyWith(key)

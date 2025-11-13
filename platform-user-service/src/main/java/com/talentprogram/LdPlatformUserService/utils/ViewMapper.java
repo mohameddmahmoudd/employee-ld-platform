@@ -1,7 +1,8 @@
 package com.talentprogram.LdPlatformUserService.utils;
-import com.talentprogram.LdPlatformUserService.model.Role;
-import com.talentprogram.LdPlatformUserService.model.User;
 import com.talentprogram.LdPlatformUserService.dto.UserDTO;
+import com.talentprogram.LdPlatformUserService.entity.Role;
+import com.talentprogram.LdPlatformUserService.entity.User;
+
 import java.util.Set;
 
 public class ViewMapper {
