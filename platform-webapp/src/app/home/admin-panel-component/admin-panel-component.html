@@ -1,0 +1,86 @@
+<div id="component-wrapper">
+    <div class="input-container">
+        <button class="btn" type="button" (click)="onSearch()">
+            <i class="fa fa-search icon" aria-hidden="true"></i>
+        </button>
+        <input matInput placeholder="Search for user.." class="input" name="text" type="text" [formControl]="searchCtrl"
+            (keydown.enter)="onSearch()" />
+    </div>
+
+    <div class="result-wrapper" [class.visible]="userFound() !== null">
+        @if (userFound()){
+        <mat-card>
+            <table class="table mat-elevation-z1 user-table">
+                <tbody>
+                    <tr>
+                        <th scope="row">Full name</th>
+                        <td>{{currentUser()?.fullName}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Username</th>
+                        <td>{{currentUser()?.username}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Roles</th>
+                        <td>
+                            <mat-chip-set class="mat-mdc-chip-set-stacked" aria-label="available-system-roles">
+                                @for (role of defaultRoles; track role) {
+                                <mat-chip-option [selected]="role.isSelected"
+                                    (selectionChange)="role.isSelected = $event.selected">
+                                    {{ role.name }}
+                                </mat-chip-option>
+                                } @empty {
+                                <mat-spinner [diameter]="24" [strokeWidth]="5" />
+                                }
+                            </mat-chip-set>
+                        </td>
+                        <td>
+                            <button class="btn" type="button" (click)="saveRoles($event)">
+                                <i class="fa fa-save icon" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Manager</th>
+                        <td>
+                            <span [attr.contenteditable]="!isLoadingSave()" class="editable-text-box"
+                                (keydown.enter)="saveManager($event)" #editable>
+                                {{ currentUserManager()?.username }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <button class="btn" type="button" (click)="saveManager($event)">
+                                <i class="fa fa-save icon" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Title</th>
+                        <td>
+                            <span [attr.contenteditable]="!isLoadingSave()" class="editable-text-box"
+                                (keydown.enter)="saveTitle($event)" #editable>
+                                {{ currentUser()?.title }}
+                        </span>
+                        </td>
+
+                        <td>
+                            <button class="btn" type="button" (click)="saveTitle($event)">
+                                <i class="fa fa-save icon" aria-hidden="true"></i>
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </mat-card>
+        @if (errorSaving() && !isLoadingSave()){
+        <p class="error"> {{ saveErrorMessage }} </p>
+        }
+        } @else if(userFound() === false) {
+        <p class="error">User not found!</p>
+        }
+    </div>
+    @if (isLoading()){
+    <mat-spinner class="loading-page" [diameter]="50" [strokeWidth]="10"></mat-spinner>
+    }
+</div>

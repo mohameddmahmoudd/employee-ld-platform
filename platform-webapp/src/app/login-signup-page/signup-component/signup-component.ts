@@ -5,7 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
-import { AuthService } from '../../auth-service';
+import { AuthService } from '../../service/auth-service';
 import { SignupRequestDto } from '../model/SignupRequestDto';
 import { handleAuthResponse, validateForm } from '../util';
 import { HttpErrorResponse, HttpStatusCode } from '@angular/common/http';
@@ -58,8 +58,7 @@ export class SignupComponent {
     const dto: SignupRequestDto = {
       username: this.signupForm.controls["username"].value!,
       password: this.signupForm.controls["password"].value!,
-      firstname: this.signupForm.controls["firstname"].value!,
-      lastname: this.signupForm.controls["lastname"].value!
+      fullName: this.signupForm.controls["firstname"].value! + ' ' +  this.signupForm.controls["lastname"].value!
     }
     return this.authService.signup(dto);
   }

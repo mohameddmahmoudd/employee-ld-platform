@@ -1,3 +1,4 @@
 export const environment = {
-  AUTH_API_URL: 'http://localhost:8080/auth'
+  AUTH_API_URL: 'http://localhost:8080/auth',
+  USERS_API_URL: 'http://localhost:8080/users'
 };

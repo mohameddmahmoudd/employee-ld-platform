@@ -3,16 +3,11 @@
 </svg>
 <h1 mat-dialog-title>Notifications</h1>
 <mat-dialog-content>
-    <app-notifications-component [page]="this.page" />
+    <app-notifications-component [pageIndex]="this.pageIndex" [pageSize]="this.pageSize" />
 </mat-dialog-content>
-<mat-dialog-actions><mat-dialog-actions>
-    <!-- <button mat-button (click)="goTo(1)" [disabled]="page===1">First</button> -->
-    <button mat-button (click)="prev()" [disabled]="page===1">Prev</button>
-
-    <span class="page-indicator">Page {{ page }}{{ totalPages ? ' / ' + totalPages : '' }}</span>
-
-    <button mat-button (click)="next()" [disabled]="totalPages ? page>=totalPages : false">Next</button>
-    <!-- <button mat-button (click)="goTo(totalPages)" [disabled]="!totalPages || page===totalPages">Last</button> -->
-
+<mat-dialog-actions>
+    <mat-paginator [length]="'Infinity'" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]" (page)="onPage($event)"></mat-paginator>
     <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>
+
+<!-- TODO: create some denormalized get request for count for length -->

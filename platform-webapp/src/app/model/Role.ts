@@ -1,3 +1,4 @@
-// export interface Role {
-//     role: "EMPLOYEE" | "GUEST" | "ADMIN" | "MANAGER"
-// }
+export interface Role {
+    id: number,
+    name: "EMPLOYEE" | "GUEST" | "ADMIN" | "MANAGER"
+}

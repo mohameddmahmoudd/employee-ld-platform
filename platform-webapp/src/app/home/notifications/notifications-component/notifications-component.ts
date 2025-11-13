@@ -7,5 +7,6 @@ import { Component, input } from '@angular/core';
   styleUrl: './notifications-component.css',
 })
 export class NotificationsComponent {
-  page = input.required<number>();
+  pageIndex = input.required<number>();
+  pageSize = input.required<number>();
 }

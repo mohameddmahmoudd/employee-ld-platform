@@ -18,8 +18,8 @@
         <p class="error">{{errorMessage()}}</p>
         }
 
-        <a matButton="filled" (click)="tryToAuthenticate($event)" (keydown.enter)="tryToAuthenticate($event)">Signup</a>
-        <a matButton routerLink="/login">I already have an account</a>
+        <button type="button" matButton="filled" (click)="tryToAuthenticate($event)" (keydown.enter)="tryToAuthenticate($event)">Signup</button>
+        <button type="button" matButton routerLink="/login">I already have an account</button>
         @if (isLoading()){
             <mat-spinner [diameter]="50" [strokeWidth]="10"></mat-spinner>
         }

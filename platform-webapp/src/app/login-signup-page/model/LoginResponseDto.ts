@@ -1,6 +1,6 @@
-import { UserViewDto } from "../../model/UserViewDto";
+import { UserDto } from "../../model/UserDto";
 
 export interface LoginResponseDto {
     token: string,
-    user: UserViewDto
+    user: UserDto
 }

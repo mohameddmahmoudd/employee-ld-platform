@@ -50,8 +50,13 @@
   <mat-sidenav #snav mode="over" [fixedInViewport]="true" fixedTopGap="56" [autoFocus]="false">
     <mat-nav-list>
       @for (link of links; track link) {
-      <a mat-list-item [routerLink]="link.path" routerLinkActive  #rla="routerLinkActive"
-        [routerLinkActiveOptions]="{ exact: true }" [class.mdc-list-item--activated]='rla.isActive'>
+      <a mat-list-item 
+        [routerLink]="link.path"
+        routerLinkActive
+        #rla="routerLinkActive"
+        [routerLinkActiveOptions]="{ exact: true }"
+        [class.mdc-list-item--activated]='rla.isActive'
+        (click)="snav.close()">
         {{ link.label }}
       </a>
       }
@@ -68,8 +73,4 @@
 
 
 <!-- <ng-container *ngComponentOutlet="getDashboardComponent()" /> -->
-<!-- authService = inject(AuthService);
-  getDashboardComponent(){
-    return (this.authService.user?.roles.has("EMPLOYEE"))? EmployeeDashboardComponent : GuestDashboardComponent;
-  }
- -->
+<!-- TODO: make tabs on left and icons on right -->

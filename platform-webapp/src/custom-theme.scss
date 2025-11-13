@@ -10,6 +10,13 @@
 //yellow: #F0B744
 //cyan: #73BFE5
 //grey: #BBBDC1
+:root {
+  --my-primary: #302b7e;
+  --my-secondary: #6ebda6;
+  --my-tertiary: #cf378c;
+  // --mat-sys-primary: #302b7e;
+  // --mat-sys-on-primary-container: #383291;
+}
 
 html {
   @include mat.theme((color: (primary: $primary-palette,
@@ -135,3 +142,10 @@ h3 {
 }
 }
 
+
+
+
+.mat-mdc-paginator-navigation-next {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}

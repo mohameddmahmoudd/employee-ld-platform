@@ -29,7 +29,7 @@ export function handleAuthResponse(request: Observable<LoginResponseDto>, compon
             /* TODO: CREATE SETTER AND GETTER */
             component.authService.user = {
                 ...response.user,
-                roles: new Set(response.user.roles) // convert array -> Set
+                roles: new Set(response.user.roles ?? []) // convert array -> Set
             };
             component.authService.userToken = response.token;
             component.authService.isAuthenticated.set(true);
@@ -37,6 +37,7 @@ export function handleAuthResponse(request: Observable<LoginResponseDto>, compon
             component.authService.router.navigate(['/dashboard']);
         },
         error: (error: HttpErrorResponse) => {
+            console.log(error);
             component.authService.isAuthenticated.set(false);
             component.updateErrorMessage(error);
         }

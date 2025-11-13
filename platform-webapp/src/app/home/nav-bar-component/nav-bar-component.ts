@@ -11,6 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { Router, RouterModule, RouterOutlet } from "@angular/router";
 import { NotificationsDialog } from '../notifications/notifications-dialog/notifications-dialog';
+import { AuthService } from '../../service/auth-service';
 
 @Component({
   selector: 'app-nav-bar-component',
@@ -27,25 +28,20 @@ import { NotificationsDialog } from '../notifications/notifications-dialog/notif
   styleUrl: './nav-bar-component.css',
 })
 export class NavBarComponent {
+  protected isMobile = signal(true);
+  private _mobileQuery!: MediaQueryList;
+  private _mobileQueryListener!: () => void;
 
-  // links = ["first", "second"];
-
-  protected readonly isMobile = signal(true);
-  private readonly _mobileQuery: MediaQueryList;
-  private readonly _mobileQueryListener: () => void;
+  authService = inject(AuthService);
 
   links = [
     { label: 'Home', path: '' },
-    { label: 'Learnings', path: 'learnings' },
-    { label: 'Wikis', path: 'wikis' },
-    { label: 'Blogs', path: 'blogs' },
-    { label: 'Career Package', path: 'career-package' },
-    { label: 'Approvals', path: 'approvals' },
-    { label: 'Employee Management', path: 'employee-management' },
+    { label: 'Blogs', path: 'blogs' }
   ];
 
+
   // I stole this from angular material
-  constructor(public router: Router) {
+  private prepareMobileView() {
     const media = inject(MediaMatcher);
     this._mobileQuery = media.matchMedia('(max-width: 600px)');
     this.isMobile.set(this._mobileQuery.matches);
@@ -54,6 +50,35 @@ export class NavBarComponent {
       this.dialog.closeAll();
     }
     this._mobileQuery.addEventListener('change', this._mobileQueryListener);
+  }
+
+  private prepareLinksList() {
+    if (this.authService.checkRole(this.authService.user, "EMPLOYEE")) {
+      this.links.push(...[
+        { label: 'Wikis', path: 'wikis' },
+        { label: 'Learnings', path: 'learnings' },
+        { label: 'Career Package', path: 'career-package' },
+      ])
+    }
+
+    if (this.authService.checkRole(this.authService.user, "MANAGER")) {
+      this.links.push(...[
+        { label: 'Approvals', path: 'approvals' },
+      ])
+    }
+// TODO: this should be ADMIN but it's none for testing
+    if (true || this.authService.checkRole(this.authService.user, "ADMIN")) {
+      this.links.push(...[
+        { label: 'Admin Panel', path: 'admin-panel' },
+      ])
+    }
+  }
+
+  constructor(public router: Router) {
+    this.prepareMobileView();
+    this.prepareLinksList();
+
+    console.log(this.authService.user?.roles);
   }
 
   ngOnDestroy(): void {

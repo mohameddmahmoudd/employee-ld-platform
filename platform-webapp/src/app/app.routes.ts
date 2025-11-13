@@ -4,6 +4,8 @@ import { SignupComponent } from './login-signup-page/signup-component/signup-com
 import { Home } from './home/home';
 import { dashboardGuard } from './guards/dashboard-guard';
 import { EmptyComponent } from './empty-component/empty-component';
+import { ProfileComponent } from './home/profile-component/profile-component';
+import { AdminPanelComponent } from './home/admin-panel-component/admin-panel-component';
 
 // TODO: lazy load
 export const routes: Routes = [
@@ -13,12 +15,12 @@ export const routes: Routes = [
         path: "", component: Home,
         /*canActivate: [dashboardGuard],*/
         children: [
-            { path: 'profile', component: EmptyComponent },
+            { path: 'profile', component: ProfileComponent },
             { path: 'learnings', component: EmptyComponent }, //guard this
             { path: 'wikis', component: EmptyComponent }, //guard this
             { path: 'blogs', component: EmptyComponent },
             { path: 'career-package', component: EmptyComponent }, //guard this
-            { path: 'employee-management', component: EmptyComponent }, //guard this
+            { path: 'admin-panel', component: AdminPanelComponent }, //guard this
             { path: 'approvals', component: EmptyComponent }, //guard this
         ]
     },

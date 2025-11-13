@@ -3,7 +3,9 @@
     top: -8px;
     left: var(--mat-dialog-container-shape, var(--mat-sys-corner-extra-large, 4px));
 }
-
+/* mat-paginator {
+    width: 100%;
+} */
 @media (max-width: 600px) {
     .caret {
         visibility: hidden;
@@ -11,3 +13,13 @@
         right: var(--mat-dialog-container-shape, var(--mat-sys-corner-extra-large, 4px)); */
     }
 }
+
+mat-dialog-content, mat-dialog-actions {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+mat-paginator {
+  width: 100%;
+  box-sizing: border-box;
+}
+

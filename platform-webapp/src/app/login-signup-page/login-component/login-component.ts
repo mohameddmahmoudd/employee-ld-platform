@@ -5,7 +5,7 @@ import { RouterLink } from '@angular/router';
 import { FieldComponent } from "../field-component/field-component";
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
-import { AuthService } from '../../auth-service';
+import { AuthService } from '../../service/auth-service';
 import { LoginRequestDto } from '../model/LoginRequestDto';
 import { handleAuthResponse, validateForm } from '../util';
 import { MatProgressSpinnerModule, MatSpinner } from '@angular/material/progress-spinner';

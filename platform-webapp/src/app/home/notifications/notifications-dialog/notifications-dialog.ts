@@ -4,6 +4,7 @@ import { MatDialogTitle, MatDialogContent, MatDialogActions, MatDialogClose } fr
 import { EmptyComponent } from "../../../empty-component/empty-component";
 import { MatDialogConfig } from "@angular/material/dialog";
 import { NotificationsComponent } from "../notifications-component/notifications-component";
+import { MatPaginatorModule, PageEvent } from "@angular/material/paginator";
 
 @Component({
   selector: 'notifications-dialog',
@@ -15,23 +16,19 @@ import { NotificationsComponent } from "../notifications-component/notifications
     MatDialogActions,
     MatDialogClose,
     MatButtonModule,
-    NotificationsComponent
+    NotificationsComponent,
+    MatPaginatorModule,
   ],
   // encapsulation: ViewEncapsulation.None,
 })
 export class NotificationsDialog {
-
-  // the pages bit is chatgpt generated bc it's dumb
-  page = 1;                    // default page = 1
-  totalPages?: number;         // optional, set if you know total
-
-  prev() { if (this.page > 1) this.page--; }
-  next() { if (!this.totalPages || this.page < this.totalPages) this.page++; }
-  // goTo(n?: number) {
-  //   if (!n) return;
-  //   this.page = Math.max(1, this.totalPages ? Math.min(n, this.totalPages) : n);
-  // }
-
+  pageIndex : number = 1;
+  pageSize: number = 5;
+  onPage(e: PageEvent){
+    this.pageIndex = e.pageIndex + 1;
+    this.pageSize = e.pageSize;
+  }
+  
   static getMobileViewConfig(buttonRect: DOMRect): MatDialogConfig {
     return {
       width: '100vw',
