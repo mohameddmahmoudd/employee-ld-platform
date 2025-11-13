@@ -1,6 +1,7 @@
 package com.talentprogram.LdPlatformNotificationService.dto;
 import java.time.Instant;
-import com.talentprogram.LdPlatformNotificationService.model.Notification.Type;
+
+import com.talentprogram.LdPlatformNotificationService.entity.Notification.Type;
 
 public record NotificationViewDTO(
   Long id,

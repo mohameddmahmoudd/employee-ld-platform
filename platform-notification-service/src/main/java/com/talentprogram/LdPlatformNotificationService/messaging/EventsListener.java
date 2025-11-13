@@ -47,7 +47,7 @@ public class EventsListener
 
         CreateNotificationDTO notification = new CreateNotificationDTO(
             managerId,
-            com.talentprogram.LdPlatformNotificationService.model.Notification.Type.INFO,
+            com.talentprogram.LdPlatformNotificationService.entity.Notification.Type.INFO,
             "New learning from user %d: %s".formatted(employeeId, title)
         );
         notificationService.create(notification);
@@ -74,7 +74,7 @@ public class EventsListener
 
         CreateNotificationDTO notification = new CreateNotificationDTO(
             managerId,
-            com.talentprogram.LdPlatformNotificationService.model.Notification.Type.INFO,
+            com.talentprogram.LdPlatformNotificationService.entity.Notification.Type.INFO,
             "New career development from user %d: %s".formatted(employeeId, title)
         );
         notificationService.create(notification);

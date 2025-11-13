@@ -1,6 +1,6 @@
 package com.talentprogram.LdPlatformNotificationService.util;
-import com.talentprogram.LdPlatformNotificationService.model.Notification;
 import com.talentprogram.LdPlatformNotificationService.dto.NotificationViewDTO;
+import com.talentprogram.LdPlatformNotificationService.entity.Notification;
 
 public final class NotificationMapper {
   private NotificationMapper() {}

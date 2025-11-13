@@ -1,4 +1,4 @@
-package com.talentprogram.LdPlatformNotificationService.model;
+package com.talentprogram.LdPlatformNotificationService.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
