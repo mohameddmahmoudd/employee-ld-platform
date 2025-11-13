@@ -1,5 +1,6 @@
 package com.talentprogram.LdPlatformUserService.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +25,12 @@ public class UserService
 {
     private final UserRepository users;
     private final RoleRepository roles;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository users, RoleRepository roles) {
+    public UserService(UserRepository users, RoleRepository roles, BCryptPasswordEncoder passwordEncoder) {
         this.users = users;
         this.roles = roles;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<User> getUserById(Long id) {
@@ -98,7 +101,7 @@ public class UserService
 
     public void updateUserPassword(Long id, String newPassword) {
         User user = users.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         users.save(user);
         log.debug("Password updated successfully for user with id: {}", id);
     }

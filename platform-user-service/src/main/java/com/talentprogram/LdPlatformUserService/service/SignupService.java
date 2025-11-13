@@ -3,6 +3,7 @@ package com.talentprogram.LdPlatformUserService.service;
 import java.util.Set;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -23,10 +24,12 @@ public class SignupService {
 
     private final UserRepository users;
     private final RoleRepository roles;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public SignupService(UserRepository users, RoleRepository roles) {
+    public SignupService(UserRepository users, RoleRepository roles, BCryptPasswordEncoder passwordEncoder) {
         this.users = users;
         this.roles = roles;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional
@@ -47,7 +50,7 @@ public class SignupService {
         User newUser = new User();
         newUser.setUsername(request.username());
         newUser.setFullName(request.fullName());
-        newUser.setPassword(request.password());
+        newUser.setPassword(passwordEncoder.encode(request.password()));
         newUser.setTitle(request.title());
         newUser.setRoles(Set.of(defaultRole));
         newUser.setIsEnabled(true);
