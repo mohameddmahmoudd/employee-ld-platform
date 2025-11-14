@@ -50,6 +50,10 @@ public class UserService
         User user = users.findById(id).orElseThrow(() -> new EntityNotFoundException("user"));
 
         if (user != null) {
+            if(!user.getUsername().equals(entity.username()) && users.existsByUsername(entity.username())) {
+                log.info("Update attempt failed for username: {}, username already exists", entity.username());
+                throw new IllegalArgumentException("Username already exists");
+            }
             user.setUsername(entity.username());
             user.setFullName(entity.fullName());
             user.setTitle(entity.title());
