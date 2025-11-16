@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../../service/auth-service';
 
 @Component({
   selector: 'app-profile-component',
@@ -7,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrl: './profile-component.css',
 })
 export class ProfileComponent {
+  authService = inject(AuthService);
+  user = this.authService.user;
 
 }

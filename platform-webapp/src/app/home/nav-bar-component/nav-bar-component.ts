@@ -67,7 +67,7 @@ export class NavBarComponent {
       ])
     }
 // TODO: this should be ADMIN but it's none for testing
-    if (true || this.authService.checkRole(this.authService.user, "ADMIN")) {
+    if (/*true || */ this.authService.checkRole(this.authService.user, "ADMIN")) {
       this.links.push(...[
         { label: 'Admin Panel', path: 'admin-panel' },
       ])

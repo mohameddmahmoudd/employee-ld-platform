@@ -1,21 +1,20 @@
-<p>profile-component works!</p>
-<div class="flip-card">
-    <input id="flip-toggle" class="flip-toggle" type="checkbox" />
+<div id="component-wrapper">
+    <div class="flip-card">
+        <input id="flip-toggle" class="flip-toggle" type="checkbox" />
 
-    <div class="flip-card-inner">
-        <div class="flip-card-front">
-            <img id="user-profile" src="assets/user_dummy.jpg" alt="User profile picture"/>
-            <div class="gradient-box">Name <br/>(+username for us) <br/> Position </div>
+        <div class="flip-card-inner">
+            <div class="flip-card-front">
+                <img id="user-profile" src="assets/user_dummy.jpg" alt="User profile picture" />
+                <div class="gradient-box">{{user?.fullName}}<br /><span
+                        class="not-bold">{{user?.username}}</span><br />{{user?.title}}</div>
+            </div>
+            <div class="flip-card-back">
+                <img src="assets/sumerge_logo_white.png" alt="Sumerge logo" />
+                <img src="assets/sumerge_values_white.png" alt="Sumerge 7 values" />
+            </div>
         </div>
-        <div class="flip-card-back">
-            <img src="assets/sumerge_logo_white.png" 
-                 alt="Sumerge logo"/>
-            <img src="assets/sumerge_values_white.png" 
-                 alt="Sumerge 7 values"/>
-        </div>
+        <label for="flip-toggle" class="flip-overlay" aria-hidden="true"></label>
+
     </div>
-    <label for="flip-toggle" class="flip-overlay" aria-hidden="true"></label>
-
 </div>
-
 <!-- then the username and whatnot -->

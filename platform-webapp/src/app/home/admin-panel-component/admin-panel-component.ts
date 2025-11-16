@@ -15,6 +15,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { delay, Observable } from 'rxjs';
 import { MatRippleModule } from '@angular/material/core';
 import { UserUpdateInfoDTO } from './UserUpdateInfoDto';
+import { AuthService } from '../../service/auth-service';
 
 // TODO: guard for admin-panel component bc it doesn't exist yet
 @Component({
@@ -38,6 +39,7 @@ import { UserUpdateInfoDTO } from './UserUpdateInfoDto';
 export class AdminPanelComponent {
   private _snackBar = inject(MatSnackBar);
   userService = inject(UserService);
+  authService = inject(AuthService);
 
   searchCtrl = new FormControl('');
   defaultRoles: { name: string, isSelected: boolean }[] = [];
@@ -132,13 +134,27 @@ export class AdminPanelComponent {
   }
 
 
-  private subscribtionToSaveRequestsHandler(req: Observable<any>) {
+  private subscribtionToSaveRequestsHandler(req: Observable<any>, caller: "roles" | "manager" | "title", currentUser: UserDto, changes: any) {
     req.subscribe({
       next: (response: any) => {
         this._snackBar.open("Success!", undefined, { duration: 2000 });
         this.saveErrorMessage = "";
         this.errorSaving.set(false);
         this.isLoadingSave.set(false);
+        if (currentUser.id === this.authService.user?.id) {
+          switch (caller) {
+            case 'roles':
+              this.authService.user.roles = changes;
+              break;
+            case 'manager':
+              this.authService.user.managerId = changes;
+              break;
+            case 'title':
+              this.authService.user.title = changes;
+              break;
+          }
+        }
+
       },
       error: (error: HttpErrorResponse) => {
         console.log(error)
@@ -154,12 +170,12 @@ export class AdminPanelComponent {
 
     const selected = this.defaultRoles.filter(d => d.isSelected).map(d => d.name);
     let updateUserRolesRequest = this.userService.updateUserRoles(currentUser.id, selected);
-    this.subscribtionToSaveRequestsHandler(updateUserRolesRequest);
+    this.subscribtionToSaveRequestsHandler(updateUserRolesRequest, "roles", currentUser, selected);
   }
 
   private handleUpdateManagerByIdRequest(currentUser: UserDto, managerId: number | null) {
     let updateManagerRequest = this.userService.updateUserManager(currentUser.id, managerId);
-    this.subscribtionToSaveRequestsHandler(updateManagerRequest);
+    this.subscribtionToSaveRequestsHandler(updateManagerRequest, "manager", currentUser, managerId);
   }
 
   private handleUpdateManagerByUsernameRequest(currentUser: UserDto, managerUserName: string) {
@@ -202,6 +218,6 @@ export class AdminPanelComponent {
       fullName: currentUser.fullName
     }
     let request = this.userService.updateUserInfo(currentUser.id, newData);
-    this.subscribtionToSaveRequestsHandler(request);
+    this.subscribtionToSaveRequestsHandler(request, "title", currentUser, userTitle);
   }
 }
