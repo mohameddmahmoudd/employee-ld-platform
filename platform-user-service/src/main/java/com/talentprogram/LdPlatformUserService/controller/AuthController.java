@@ -39,6 +39,9 @@ public class AuthController
         return loginService.buildLoginResponse(user);
     }
     
+
+    
+
     @PostMapping("auth/login")
     public LoginResponseDTO login(@RequestBody LoginRequestDTO entity) throws InvalidKeyException, ResponseStatusException, NoSuchFieldException, SecurityException, IllegalAccessException {
         return loginService.login(entity);

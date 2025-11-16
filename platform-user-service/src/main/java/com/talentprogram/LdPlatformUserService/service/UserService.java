@@ -1,5 +1,6 @@
 package com.talentprogram.LdPlatformUserService.service;
 
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,10 +25,12 @@ public class UserService
 {
     private final UserRepository users;
     private final RoleRepository roles;
+    private final BCryptPasswordEncoder passwordEncoder;
 
-    public UserService(UserRepository users, RoleRepository roles) {
+    public UserService(UserRepository users, RoleRepository roles, BCryptPasswordEncoder passwordEncoder) {
         this.users = users;
         this.roles = roles;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public Optional<User> getUserById(Long id) {
@@ -47,6 +50,10 @@ public class UserService
         User user = users.findById(id).orElseThrow(() -> new EntityNotFoundException("user"));
 
         if (user != null) {
+            if(!user.getUsername().equals(entity.username()) && users.existsByUsername(entity.username())) {
+                log.info("Update attempt failed for username: {}, username already exists", entity.username());
+                throw new IllegalArgumentException("Username already exists");
+            }
             user.setUsername(entity.username());
             user.setFullName(entity.fullName());
             user.setTitle(entity.title());
@@ -89,7 +96,10 @@ public class UserService
 
         User user = users.findById(id).orElseThrow(() -> new EntityNotFoundException("User " + id + " not found"));
 
-        user.setManager(users.findById(managerId).orElseThrow(() -> new EntityNotFoundException("Manager " + managerId + " not found")));
+        if (managerId == 0)
+            user.setManager(null);
+        else
+            user.setManager(users.findById(managerId).orElseThrow(() -> new EntityNotFoundException("Manager " + managerId + " not found")));
         users.save(user);
 
         log.debug("Manager updated successfully for user with id: {}", id);
@@ -98,7 +108,7 @@ public class UserService
 
     public void updateUserPassword(Long id, String newPassword) {
         User user = users.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found with id: " + id));
-        user.setPassword(newPassword);
+        user.setPassword(passwordEncoder.encode(newPassword));
         users.save(user);
         log.debug("Password updated successfully for user with id: {}", id);
     }

@@ -8,12 +8,16 @@ import org.springframework.http.ProblemDetail;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
-
+import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
+import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.util.Map;
 import java.nio.file.AccessDeniedException;
 
@@ -61,8 +65,52 @@ public class APIExceptionHandler
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(pd);
   }
 
+
+  @ExceptionHandler(ExpiredJwtException.class)
+  public ResponseEntity<ProblemDetail> handleJwtExpired(ExpiredJwtException ex, HttpServletRequest req) {
+    ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+    pd.setTitle("Unauthorized JWT");
+    pd.setDetail("JWT token has expired");
+    pd.setProperty("path", req.getRequestURI());
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(pd);
+  }
+
+  @ExceptionHandler(JwtException.class)
+  public ResponseEntity<ProblemDetail> handleJwtError(JwtException ex, HttpServletRequest req) {
+    ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.UNAUTHORIZED);
+    pd.setTitle("Problem with your JWT");
+    pd.setDetail("JWT token is invalid");
+    pd.setProperty("path", req.getRequestURI());
+    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(pd);
+  }
+
+  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+  public ResponseEntity<ProblemDetail> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex, HttpServletRequest req) {
+    ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.METHOD_NOT_ALLOWED);
+    pd.setTitle("Method Not Allowed");
+    pd.setDetail(ex.getMessage());
+    pd.setProperty("path", req.getRequestURI());
+    return ResponseEntity.status(HttpStatus.METHOD_NOT_ALLOWED).body(pd);
+  }
+
+  @ExceptionHandler(NoResourceFoundException.class)
+  public ResponseEntity<ProblemDetail> handleNoResourceFound(NoResourceFoundException ex, HttpServletRequest req) {
+    ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
+    pd.setTitle("No Resource Found");
+    pd.setDetail(ex.getMessage());
+    pd.setProperty("path", req.getRequestURI());
+    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(pd);
+  }
+
   @ExceptionHandler(Exception.class)
   public ResponseEntity<ProblemDetail> handleGeneric(Exception ex, HttpServletRequest req) {
+    if (ex instanceof ResponseStatusException rse) {
+      ProblemDetail pd = ProblemDetail.forStatus(rse.getStatusCode());
+      pd.setTitle("Error");
+      pd.setDetail(rse.getReason());
+      pd.setProperty("path", req.getRequestURI());
+      return ResponseEntity.status(rse.getStatusCode()).body(pd);
+    }
     log.error("Unhandled exception at {}: {}", req.getRequestURI(), ex.toString(), ex);
     ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.INTERNAL_SERVER_ERROR);
     pd.setTitle("Internal error");

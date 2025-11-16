@@ -24,12 +24,11 @@ import com.talentprogram.LdPlatformUserService.utils.ViewMapper;
 import java.util.List;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
-
+import com.talentprogram.LdPlatformUserService.dto.PasswordUpdateRequestDTO;
 
 @RestController
 @RequestMapping("/users")
-public class UserController
-{
+public class UserController {
     private final UserService userService;
 
     public UserController(UserService userService) {
@@ -38,13 +37,15 @@ public class UserController
 
     @GetMapping("/id/{id}")
     public UserDTO getUser(@PathVariable Long id) {
-       return ViewMapper.toUserDTO(userService.getUserById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id)));
+        return ViewMapper.toUserDTO(userService.getUserById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id)));
 
     }
 
     @GetMapping("/username/{username}")
     public UserDTO getUserByUsername(@PathVariable String username) {
-        return ViewMapper.toUserDTO(Objects.requireNonNull(userService.getUserByUsername(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with username: " + username))));
+        return ViewMapper.toUserDTO(Objects.requireNonNull(userService.getUserByUsername(username).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with username: " + username))));
     }
 
     @PutMapping("/{id}")
@@ -53,8 +54,7 @@ public class UserController
         if (updatedUser.isPresent()) {
             User user = updatedUser.get();
             return ViewMapper.toUserDTO(user);
-        }
-        else {
+        } else {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found with id: " + id);
         }
     }
@@ -72,15 +72,27 @@ public class UserController
 
     @PatchMapping("/{id}/managerId")
     @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
-    public UserDTO updateUserManager(@PathVariable Long id, @RequestParam Long managerId)
-    {
-        return ViewMapper.toUserDTO(userService.updateUserManager(id, managerId).orElse(null));
+    public void updateUserManager(@PathVariable Long id, @RequestParam Long managerId) {
+        ViewMapper.toUserDTO(userService.updateUserManager(id, managerId).orElse(null));
+    }
+
+    @PatchMapping("/{id}/updatePassword")
+    @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
+    public void updateUserPassword(@PathVariable Long id, @RequestParam String newPassword) {
+        userService.updateUserPassword(id, newPassword);
+    }
+
+
+    @PatchMapping("/{id}/password")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateUserPassword(@PathVariable Long id,
+            @RequestBody PasswordUpdateRequestDTO request) {
+        userService.updateUserPassword(id, request.newPassword());
     }
 
     @GetMapping("/roles")
-    public List<String> fetchDefaultRoles() 
-    {
+    public List<String> fetchDefaultRoles() {
         return userService.getAllRoles();
     }
-    
+
 }
