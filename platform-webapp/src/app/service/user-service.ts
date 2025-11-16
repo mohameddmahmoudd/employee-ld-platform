@@ -2,7 +2,6 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../environment';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { UserDto } from '../model/UserDto';
-import { Role } from '../model/Role';
 import { UserUpdateInfoDTO } from '../home/admin-panel-component/UserUpdateInfoDto';
 
 @Injectable({

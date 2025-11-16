@@ -35,6 +35,7 @@ export class AuthService {
     this.userToken = null;
   }
 
+  // helper
   checkRole(user: UserDto | null, role: string) {
     if (!user) return false;
     return user.roles.includes(role);
@@ -42,29 +43,3 @@ export class AuthService {
 
 }
 
-
-import { tap, catchError } from 'rxjs/operators';
-import { throwError } from 'rxjs';
-
-export function authorizationInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn) {
-  const authService = inject(AuthService);
-  const authToken = authService.userToken;
-
-  const cloned = authToken
-    ? req.clone({ headers: req.headers.set('Authorization', `Bearer ${authToken}`) })
-    : req;
-
-  return next(cloned).pipe(
-    tap(event => {
-      // handle successful responses here TODO?
-    }),
-    catchError(err => {
-      // TODO: what's the error we get when token times out? 403? 401?
-      if (err.status === 401) {
-        authService.logout();
-        authService.router.navigateByUrl("/login");
-      }
-      return throwError(() => err);
-    })
-  );
-}
