@@ -24,6 +24,8 @@ import com.talentprogram.LdPlatformUserService.utils.ViewMapper;
 import java.util.List;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
+
 import com.talentprogram.LdPlatformUserService.dto.PasswordUpdateRequestDTO;
 
 @RestController
@@ -59,30 +61,27 @@ public class UserController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/role")
     public List<String> updateUserRole(@PathVariable Long id, @RequestBody List<String> role) {
         return userService.updateUserRole(id, role);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/managerId")
     @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
     public void updateUserManager(@PathVariable Long id, @RequestParam Long managerId) {
         ViewMapper.toUserDTO(userService.updateUserManager(id, managerId).orElse(null));
     }
 
-    @PatchMapping("/{id}/updatePassword")
-    @ResponseStatus(org.springframework.http.HttpStatus.NO_CONTENT)
-    public void updateUserPassword(@PathVariable Long id, @RequestParam String newPassword) {
-        userService.updateUserPassword(id, newPassword);
-    }
-
-
+    @PreAuthorize("hasRole('ADMIN')")
     @PatchMapping("/{id}/password")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateUserPassword(@PathVariable Long id,

@@ -19,15 +19,14 @@ import io.jsonwebtoken.JwtException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 import java.util.Map;
-import java.nio.file.AccessDeniedException;
+import org.springframework.security.access.AccessDeniedException;
 
 @Slf4j
 @RestControllerAdvice
-public class APIExceptionHandler
-{
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<ProblemDetail> handleNotFound(EntityNotFoundException ex, HttpServletRequest req) {
-    
+public class APIExceptionHandler {
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<ProblemDetail> handleNotFound(EntityNotFoundException ex, HttpServletRequest req) {
+
     ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.NOT_FOUND);
     pd.setTitle("Resource not found");
     pd.setDetail(ex.getMessage());
@@ -45,26 +44,28 @@ public class APIExceptionHandler
   }
 
   @ExceptionHandler(MethodArgumentNotValidException.class)
-  public ResponseEntity<ProblemDetail> handleValidationErrors(MethodArgumentNotValidException ex, HttpServletRequest req) {
+  public ResponseEntity<ProblemDetail> handleValidationErrors(MethodArgumentNotValidException ex,
+      HttpServletRequest req) {
     ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.UNPROCESSABLE_ENTITY);
     pd.setTitle("Validation failed");
     pd.setDetail("One or more fields are invalid");
     Map<String, String> fieldErrors = ex.getBindingResult().getFieldErrors().stream()
-        .collect(Collectors.toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage, (a,b) -> a));
+        .collect(
+            Collectors.toMap(FieldError::getField, DefaultMessageSourceResolvable::getDefaultMessage, (a, b) -> a));
     pd.setProperty("errors", fieldErrors);
     pd.setProperty("path", req.getRequestURI());
     return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).body(pd);
   }
 
-   @ExceptionHandler(AccessDeniedException.class)
+  @ExceptionHandler(AccessDeniedException.class)
   public ResponseEntity<ProblemDetail> handleForbidden(AccessDeniedException ex, HttpServletRequest req) {
     ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.FORBIDDEN);
     pd.setTitle("Forbidden");
-    pd.setDetail(ex.getMessage());
+    String detail = ex.getMessage() != null ? ex.getMessage() : "You do not have permission to access this resource";
+    pd.setDetail(detail);
     pd.setProperty("path", req.getRequestURI());
     return ResponseEntity.status(HttpStatus.FORBIDDEN).body(pd);
   }
-
 
   @ExceptionHandler(ExpiredJwtException.class)
   public ResponseEntity<ProblemDetail> handleJwtExpired(ExpiredJwtException ex, HttpServletRequest req) {
@@ -85,7 +86,8 @@ public class APIExceptionHandler
   }
 
   @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-  public ResponseEntity<ProblemDetail> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex, HttpServletRequest req) {
+  public ResponseEntity<ProblemDetail> handleMethodNotAllowed(HttpRequestMethodNotSupportedException ex,
+      HttpServletRequest req) {
     ProblemDetail pd = ProblemDetail.forStatus(HttpStatus.METHOD_NOT_ALLOWED);
     pd.setTitle("Method Not Allowed");
     pd.setDetail(ex.getMessage());
@@ -119,4 +121,3 @@ public class APIExceptionHandler
     return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(pd);
   }
 }
-
