@@ -92,7 +92,10 @@ public class UserService
 
         User user = users.findById(id).orElseThrow(() -> new EntityNotFoundException("User " + id + " not found"));
 
-        user.setManager(users.findById(managerId).orElseThrow(() -> new EntityNotFoundException("Manager " + managerId + " not found")));
+        if (managerId == 0)
+            user.setManager(null);
+        else
+            user.setManager(users.findById(managerId).orElseThrow(() -> new EntityNotFoundException("Manager " + managerId + " not found")));
         users.save(user);
 
         log.debug("Manager updated successfully for user with id: {}", id);
