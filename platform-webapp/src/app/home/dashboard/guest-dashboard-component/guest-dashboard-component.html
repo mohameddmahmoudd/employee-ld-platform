@@ -1,1 +1,40 @@
-<p>guest-dashboard-component works!</p>
+<section class="guest-dashboard">
+  <article class="guest-card">
+    <p class="eyebrow">Guest account</p>
+    <h1>Welcome, {{ user?.fullName || 'Guest' }}!</h1>
+    <p class="subtitle">{{ user?.title || 'Candidate' }}</p>
+
+    <div class="status-pill">Profile inactive</div>
+    <p class="message">
+      Your access is limited while we finish setting up your employee profile.
+      <strong>Please contact an HR personnel to activate your profile.</strong>
+    </p>
+
+    <div class="user-details">
+      <div>
+        <span class="label">Username</span>
+        <span class="value">{{ user?.username || 'Not provided' }}</span>
+      </div>
+      <div>
+        <span class="label">Role</span>
+        <span class="value">{{ user?.roles?.join(', ') || 'Guest' }}</span>
+      </div>
+    </div>
+
+    <div class="contact-box">
+      <p>Have questions? Email <a href="mailto:hr@sumerge.com">hr@sumerge.com</a> or reach out to your HR contact.</p>
+    </div>
+  </article>
+
+  <aside class="next-steps">
+    <h2>Next steps</h2>
+    <p>Complete the checklist below so HR can activate your access.</p>
+    <div class="step" *ngFor="let step of nextSteps; index as i">
+      <div class="step-index">0{{ i + 1 }}</div>
+      <div>
+        <h3>{{ step.title }}</h3>
+        <p>{{ step.description }}</p>
+      </div>
+    </div>
+  </aside>
+</section>

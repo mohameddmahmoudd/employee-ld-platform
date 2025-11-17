@@ -1,1 +1,63 @@
-<p>employee-dashboard-component works!</p>
+<section class="employee-dashboard" *ngIf="user as currentUser; else loading">
+  <header class="welcome-card">
+    <div>
+      <p class="eyebrow">Welcome back</p>
+      <h1>{{ currentUser.fullName }}</h1>
+      <p class="subtitle">{{ currentUser.title || 'Team member' }}</p>
+    </div>
+    <div class="welcome-meta">
+      <div>
+        <span class="label">Username</span>
+        <span class="value">{{ currentUser.username }}</span>
+      </div>
+      <div>
+        <span class="label">Manager ID</span>
+        <span class="value">{{ currentUser.managerId || 'N/A' }}</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="dashboard-grid">
+    <section class="stats-panel">
+      <h2>Quick stats</h2>
+      <div class="stats-grid">
+        <article class="stat-card" *ngFor="let stat of quickStats">
+          <p class="stat-label">{{ stat.label }}</p>
+          <p class="stat-value">{{ stat.value }}</p>
+          <p class="stat-meta">{{ stat.meta }}</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="action-panel">
+      <h2>Next actions</h2>
+      <div class="action" *ngFor="let action of actionItems">
+        <div>
+          <h3>{{ action.title }}</h3>
+          <p>{{ action.description }}</p>
+        </div>
+        <button type="button">{{ action.cta }}</button>
+      </div>
+    </section>
+
+    <section class="events-panel">
+      <h2>Upcoming events</h2>
+      <div class="event" *ngFor="let event of upcomingEvents">
+        <div class="event-date">
+          <span class="day-label">{{ event.dayLabel }}</span>
+          <span class="day">{{ event.day }}</span>
+        </div>
+        <div>
+          <h3>{{ event.title }}</h3>
+          <p>{{ event.description }}</p>
+        </div>
+      </div>
+    </section>
+  </div>
+</section>
+
+<ng-template #loading>
+  <div class="loading-state">
+    <p>Preparing your dashboard...</p>
+  </div>
+</ng-template>

@@ -7,6 +7,7 @@ import { EmptyComponent } from './empty-component/empty-component';
 import { ProfileComponent } from './home/profile-component/profile-component';
 import { AdminPanelComponent } from './home/admin-panel-component/admin-panel-component';
 import { adminPanelGuard } from './guards/admin-panel-guard';
+import { DashboardComponent } from './home/dashboard/Dashboard';
 
 // TODO: lazy load
 export const routes: Routes = [
@@ -16,6 +17,8 @@ export const routes: Routes = [
         path: "", component: Home,
         canActivate: [dashboardGuard],
         children: [
+            { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+            { path: 'dashboard', component: DashboardComponent },
             { path: 'profile', component: ProfileComponent },
             { path: 'learnings', component: EmptyComponent }, //guard this
             { path: 'wikis', component: EmptyComponent }, //guard this
